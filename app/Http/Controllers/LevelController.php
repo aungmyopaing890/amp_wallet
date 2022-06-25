@@ -25,8 +25,7 @@ class LevelController extends Controller
      */
     public function create()
     {
-        $levels=Level::all();
-        return view('level.create',compact('levels'));
+
     }
 
     /**
