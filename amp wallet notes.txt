@@ -1,0 +1,27 @@
+staff 
+role
+
+Marchent 
+Customer
+
+currency  *
+exchange 
+
+Transaction_type *
+Level *
+Transaction_limit 
+
+service_type
+service 
+
+
+Transaction
+Wallet 
+Service 
+Transaction_log
+
+Banker
+Banker_log
+
+
+
