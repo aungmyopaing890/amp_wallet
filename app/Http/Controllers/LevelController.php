@@ -25,7 +25,8 @@ class LevelController extends Controller
      */
     public function create()
     {
-
+        $levels=Level::all();
+        return view('level.create',compact('levels'));
     }
 
     /**
@@ -39,7 +40,7 @@ class LevelController extends Controller
         $data=$request->validated();
         Level::create($data);
         return redirect()->route('level.create')
-            ->with('flash', 'New Level created successfully!');
+            ->with('status', 'New Level created successfully!');
     }
 
     /**
@@ -50,7 +51,8 @@ class LevelController extends Controller
      */
     public function show(Level $level)
     {
-        //
+        $level->delete();
+        return   redirect()->back()->with('status', 'Successfully Deleted!');;
     }
 
     /**

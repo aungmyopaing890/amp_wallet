@@ -22,6 +22,7 @@
     <link href="{{asset('adminDashboard/assets/css/nucleo-svg.css')}}" rel="stylesheet" />
     <!-- CSS Files -->
     <link id="pagestyle" href="{{asset('adminDashboard/assets/css/soft-ui-dashboard.css')}}?v=1.0.5" rel="stylesheet" />
+
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
@@ -33,7 +34,14 @@
 <script src="{{asset('adminDashboard/assets/js/plugins/perfect-scrollbar.min.js')}}"></script>
 <script src="{{asset('adminDashboard/assets/js/plugins/smooth-scrollbar.min.js')}}"></script>
 <script src="{{asset('adminDashboard/assets/js/plugins/chartjs.min.js')}}"></script>
+<script src="{{ asset('css/app.css') }}"></script>
+<script src="{{ asset('js/app.js') }}"></script>
 <script>
+
+
+
+
+
     var ctx = document.getElementById("chart-bars").getContext("2d");
 
     new Chart(ctx, {
@@ -216,5 +224,24 @@
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
 <script src="{{asset('adminDashboard/assets/js/soft-ui-dashboard.min.js')}}?v=1.0.5"></script>
+@if(session('status'))
+    <script>
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        })
+        Toast.fire({
+            icon: 'success',
+            title: '{{ session('status') }}'
+        })
+    </script>
+@endif
 </body>
 </html>

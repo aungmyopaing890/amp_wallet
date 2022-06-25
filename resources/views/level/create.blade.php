@@ -78,10 +78,12 @@
                                                 <p class="text-xs mb-0">{{$level->description}}</p>
                                             </td>
                                             <td class="align-middle text-center">
+                                                <a href="{{route('level.destroy',$level->id)}}" class="text-decoration-none"><i class="feather-trash-2 text-danger fa-2x"></i></a>
+
                                                 <form action="{{ route('level.destroy',$level->id) }}" class="d-inline-block" method="post">
                                                     @csrf
                                                     @method("delete")
-                                                    <button class="btn btn-outline-danger btn-sm">
+                                                    <button class="btn btn-outline-danger btn-sm d-none">
                                                         <i class="feather-trash-2 fa-3x"></i>
                                                     </button>
                                                 </form>
