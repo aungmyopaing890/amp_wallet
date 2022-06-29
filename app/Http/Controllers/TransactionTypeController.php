@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\currency;
 use App\Models\TransactionType;
 use App\Http\Requests\StoretransactionTypeRequest;
-use App\Http\Requests\Updatetransaction_typeRequest;
+use App\Http\Requests\updatetransactionTypeRequest ;
 
 class TransactionTypeController extends Controller
 {
@@ -42,7 +42,7 @@ class TransactionTypeController extends Controller
         $data=$request->validated();
         TransactionType::create($data);
         return redirect()->route('transactionType.create')
-            ->with('flash', 'New Level created successfully!');
+            ->with('flash', 'New TransactionType created successfully!');
     }
 
     /**
@@ -71,16 +71,16 @@ class TransactionTypeController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\Updatetransaction_typeRequest  $request
+     * @param  \App\Http\Requests\UpdatetransactionTypeRequest $request
      * @param  \App\Models\TransactionType  $transaction_type
      * @return \Illuminate\Http\Response
      */
-    public function update(Updatetransaction_typeRequest $request, TransactionType $transactionType)
+    public function update(UpdatetransactionTypeRequest $request, TransactionType $transactionType)
     {
         $data=$request->validated();
         $transactionType->update($data);
         return redirect()->route('transactionType.create')
-            ->with('flash', 'Level updated successfully!');
+            ->with('status', 'TransactionType updated successfully!');
     }
 
     /**
@@ -92,6 +92,7 @@ class TransactionTypeController extends Controller
     public function destroy(TransactionType $transactionType)
     {
         $transactionType->delete();
-        return   redirect()->back();
+        return redirect()->back()
+            ->with('status', 'TransactionType Deleted successfully!');
     }
 }

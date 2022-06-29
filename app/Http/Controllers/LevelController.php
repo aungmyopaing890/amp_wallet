@@ -78,7 +78,7 @@ class LevelController extends Controller
         $data=$request->validated();
         $level->update($data);
         return redirect()->route('level.create')
-            ->with('flash', 'Level updated successfully!');
+            ->with('status', 'Level updated successfully!');
     }
 
     /**

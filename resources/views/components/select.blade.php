@@ -3,7 +3,7 @@
     <div class="col-md-6">
         <select {!! $attributes->merge(['class' => 'form-control ']) !!}>
             @foreach($attributes['value'] as $q)
-                <option value="{{ $q->id }}" {{ old($attributes['name']) == $q->id ? "selected":"" }}>{{ $q->name }}</option>
+                <option value="{{ $q['id'] }}" {{ old($attributes['name']) == $q['id']  ? "selected":"" }}>{{ $q['name']  }}</option>
             @endforeach
         </select>
     </div>

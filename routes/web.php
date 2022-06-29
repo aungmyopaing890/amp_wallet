@@ -23,6 +23,7 @@ Route::resource('currency',\App\Http\Controllers\CurrencyController::class);
 Route::resource('level',\App\Http\Controllers\LevelController::class);
 Route::resource('transactionType',\App\Http\Controllers\TransactionTypeController::class);
 Route::resource('transactionLimit',\App\Http\Controllers\TransactionLimitController::class);
+Route::resource('serviceType',\App\Http\Controllers\ServiceTypeController::class);
 
 Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');
 

@@ -8,42 +8,34 @@
 
     <link rel="icon" type="image/png" href="{{asset('adminDashboard/assets/img/favicon.png')}}">
     <title>
-        Soft UI Dashboard by Creative Tim
+        AMP Wallet
     </title>
-    <!--     Fonts and icons     -->
+    <!--     Fonts and icons-->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
     <!-- Nucleo Icons -->
     <link href="{{asset('adminDashboard/assets/css/nucleo-icons.css')}}" rel="stylesheet" />
     <link href="{{asset('vendor/feather-icons-web/feather.css')}}" rel="stylesheet" />
 
     <link href="{{asset('adminDashboard/assets/css/nucleo-svg.css')}}" rel="stylesheet" />
-    <!-- Font Awesome Icons -->
-    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <!-- Font Awesome Icons-->
+     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
     <link href="{{asset('adminDashboard/assets/css/nucleo-svg.css')}}" rel="stylesheet" />
     <!-- CSS Files -->
     <link id="pagestyle" href="{{asset('adminDashboard/assets/css/soft-ui-dashboard.css')}}?v=1.0.5" rel="stylesheet" />
-
 </head>
 
-<body class="g-sidenav-show  bg-gray-100">
+<body class="g-sidenav-show bg-gray-100">
 {{ $slot }}
-
 <!--   Core JS Files   -->
 <script src="{{asset('adminDashboard/assets/js/core/popper.min.js')}}"></script>
 <script src="{{asset('adminDashboard/assets/js/core/bootstrap.min.js')}}"></script>
 <script src="{{asset('adminDashboard/assets/js/plugins/perfect-scrollbar.min.js')}}"></script>
 <script src="{{asset('adminDashboard/assets/js/plugins/smooth-scrollbar.min.js')}}"></script>
 <script src="{{asset('adminDashboard/assets/js/plugins/chartjs.min.js')}}"></script>
-<script src="{{ asset('css/app.css') }}"></script>
-<script src="{{ asset('js/app.js') }}"></script>
+<script src="{{asset('css/app.css') }}"></script>
+<script src="{{asset('js/app.js') }}"></script>
 <script>
-
-
-
-
-
     var ctx = document.getElementById("chart-bars").getContext("2d");
-
     new Chart(ctx, {
         type: "bar",
         data: {
@@ -107,18 +99,13 @@
             },
         },
     });
-
-
     var ctx2 = document.getElementById("chart-line").getContext("2d");
-
     var gradientStroke1 = ctx2.createLinearGradient(0, 230, 0, 50);
 
     gradientStroke1.addColorStop(1, 'rgba(203,12,159,0.2)');
     gradientStroke1.addColorStop(0.2, 'rgba(72,72,176,0.0)');
     gradientStroke1.addColorStop(0, 'rgba(203,12,159,0)'); //purple colors
-
     var gradientStroke2 = ctx2.createLinearGradient(0, 230, 0, 50);
-
     gradientStroke2.addColorStop(1, 'rgba(20,23,39,0.2)');
     gradientStroke2.addColorStop(0.2, 'rgba(72,72,176,0.0)');
     gradientStroke2.addColorStop(0, 'rgba(20,23,39,0)'); //purple colors

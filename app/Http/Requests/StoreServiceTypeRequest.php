@@ -4,8 +4,11 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateTransactionTypeRequest extends FormRequest
+class StoreServiceTypeRequest extends FormRequest
 {
+    /**
+     * @var int|mixed
+     */
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -25,9 +28,8 @@ class UpdateTransactionTypeRequest extends FormRequest
     {
         return [
             "name"=>"required|string",
-            "currency_id"=>"required",
-            "charge_percentage"=>"required|integer",
-            "description"=>"required|string",
+            "img"=>"nullable",
+            "status"=>"nullable",
         ];
     }
 }

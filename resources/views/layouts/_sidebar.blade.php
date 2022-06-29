@@ -11,17 +11,13 @@
         <ul class="navbar-nav">
             <x-menu-item name="Dashboard" class="feather-shopping-bag" link="{{route('dashboard')}}" ></x-menu-item>
             <x-menu-item name="Users" class="feather-user" link="{{route('user.index')}}"></x-menu-item>
-            <x-menu-item name="Office" class="feather-user" link=""></x-menu-item>
-            <x-menu-item name="Billing" class="feather-book-open" link=""></x-menu-item>
-            <x-menu-item name="Setting" class="feather-settings" link=""></x-menu-item>
             <x-menu-title title="Manage Account"></x-menu-title>
+            <x-menu-item name="ServiceType" class="feather-toggle-left" link="{{route('serviceType.create')}}"></x-menu-item>
             <x-menu-item name="Currency" class="feather-dollar-sign" link="{{route('currency.create')}}"></x-menu-item>
             <x-menu-item name="Level" class="feather-layers" link="{{route('level.create')}}"></x-menu-item>
             <x-menu-item name="Transaction Type" class="feather-tag" link="{{route('transactionType.create')}}"></x-menu-item>
             <x-menu-item name="Transaction Limit" class="feather-list" link="{{route('transactionLimit.create')}}"></x-menu-item>
 
-            <x-menu-item name="Sign In" class="feather-user" link=""></x-menu-item>
-            <x-menu-item name="Sign up" class="feather-user-plus" link=""></x-menu-item>
             <li class="menu-item">
                 <a class="btn btn-outline-primary btn-block" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                     {{ __('Logout') }}

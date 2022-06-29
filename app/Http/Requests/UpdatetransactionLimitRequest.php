@@ -13,7 +13,7 @@ class UpdatetransactionLimitRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,13 @@ class UpdatetransactionLimitRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            "name"=>"required|string",
+            "daily_amount"=>"required|integer",
+            "monthly_amount"=>"required|integer",
+            "level_id"=>"required",
+            "transaction_type_id"=>"required",
+            "currency_id"=>"required",
+            "description"=>"required",
         ];
     }
 }

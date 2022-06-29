@@ -75,10 +75,10 @@ class CurrencyController extends Controller
     public function update(UpdatecurrencyRequest $request, currency $currency)
     {
         $data=$request->validated();
-        $currency   ->update($data);
+        $currency->update($data);
 
         return redirect()->route('currency.create')
-            ->with('flash', 'Currency updated successfully!');
+            ->with('status', 'Currency updated successfully!');
     }
 
     /**
@@ -90,6 +90,6 @@ class CurrencyController extends Controller
     public function destroy(currency $currency)
     {
         $currency->delete();
-        return   redirect()->back();
+        return redirect()->back()->with('status', 'Currency deleted successfully!');;
     }
 }

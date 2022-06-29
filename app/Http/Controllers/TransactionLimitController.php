@@ -8,6 +8,7 @@ use App\Models\TransactionType;
 use App\Models\TransactionLimit;
 use App\Http\Requests\StoretransactionLimitRequest;
 use App\Http\Requests\UpdatetransactionLimitRequest;
+use \Illuminate\Support\Facades\Config;
 
 class TransactionLimitController extends Controller
 {
@@ -29,7 +30,7 @@ class TransactionLimitController extends Controller
     {
         $currencies=currency::all();
         $transactionTypes=TransactionType::all();
-        $levels=Level::all();
+        $levels=collect(config('amp.levels'));
         $transactionLimits=TransactionLimit::all();
         return view('transactionLimit.create',compact('transactionTypes','currencies','levels','transactionLimits'));
     }
@@ -45,7 +46,7 @@ class TransactionLimitController extends Controller
         $data=$request->validated();
         TransactionLimit::create($data);
         return redirect()->route('transactionLimit.create')
-            ->with('flash', 'New Level created successfully!');
+            ->with('status', 'New Transaction Limit created successfully!');
     }
 
     /**
@@ -67,6 +68,10 @@ class TransactionLimitController extends Controller
      */
     public function edit(TransactionLimit $transactionLimit)
     {
+        $currencies=currency::all();
+        $transactionTypes=TransactionType::all();
+        $levels=\Illuminate\Support\Facades\Config::get('app.levels');
+        return view('transactionLimit.edit',compact('transactionTypes','currencies','levels','transactionLimit'));
 
     }
 
@@ -79,6 +84,10 @@ class TransactionLimitController extends Controller
      */
     public function update(UpdatetransactionLimitRequest $request, TransactionLimit $transactionLimit)
     {
+        $data=$request->validated();
+        $transactionLimit->update($data);
+        return redirect()->route('transactionLimit.create')
+            ->with('status', 'New Transaction Limit updated successfully!');
 
     }
 
