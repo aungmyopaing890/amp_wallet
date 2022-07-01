@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('charge_percentage');
             $table->string('name');
             $table->string('description');
-            $table->foreignId('currency_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('currency_id');
             $table->timestamps();
         });
     }

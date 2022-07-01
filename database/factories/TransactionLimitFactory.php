@@ -17,7 +17,13 @@ class TransactionLimitFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name' => "Deposit Limit",
+            'daily_amount' => 100000,
+            'monthly_amount' => 3000000,
+            'level_id' => 1,
+            'transaction_type_id' => 1,
+            'currency_id' => 1,
+            'description' => "Level 1 Deposit Limit",
         ];
     }
 }

@@ -17,7 +17,10 @@ class TransactionTypeFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'charge_percentage' => 0,
+            'name' => "Deposit",
+            'description' => "Deposit",
+            'currency_id' => "1",
         ];
     }
 }

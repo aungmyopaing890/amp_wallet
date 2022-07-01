@@ -16,7 +16,6 @@ class ServiceTypeController extends Controller
      */
     public function index()
     {
-        //
     }
 
     /**
@@ -40,12 +39,8 @@ class ServiceTypeController extends Controller
     {
         $serviceType=new ServiceType();
         $serviceType->name=$request->name;
-        if ($request->hasFile('img')) {
-            $dir="public/servicesType";
-            $file = $request->file("img");
-            $newName = uniqid()."_"."servicesType.".$file->getClientOriginalExtension();
-            $request->file("img")->storeAs($dir,$newName);
-            $serviceType->img=$newName;
+        if ($request->hasFile('imgPath')) {
+            $serviceType->imgPath= store_image($request,'servicesType','imgPath');
         }
         if($request->status!=""){
             $serviceType->status=$request->status;
@@ -63,7 +58,7 @@ class ServiceTypeController extends Controller
      */
     public function show(ServiceType $serviceType)
     {
-        //
+        return view('serviceType.show',compact('serviceType'));
     }
 
     /**
@@ -76,7 +71,6 @@ class ServiceTypeController extends Controller
     {
         return view('serviceType.edit',compact('serviceType'));
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -87,13 +81,11 @@ class ServiceTypeController extends Controller
     public function update(UpdateServiceTypeRequest $request, ServiceType $serviceType)
     {
         $serviceType->name = $request->name;
-        if ($request->hasFile('img')) {
-            Storage::delete("public/servicesType/".$serviceType->img);
-            $dir="public/servicesType";
-            $file = $request->file("img");
-            $newName = uniqid()."_"."servicesType.".$file->getClientOriginalExtension();
-            $request->file("img")->storeAs($dir,$newName);
-            $serviceType->img=$newName;
+        if ($request->hasFile('imgPath')) {
+            if ($serviceType->img!="image-default.png") {
+                Storage::delete('public/'.$serviceType->imgPath);
+            }
+            $serviceType->imgPath= store_image($request,'servicesTypes','imgPath');
         }
         if($request->status!=""){
             $serviceType->status=$request->status;
@@ -102,7 +94,6 @@ class ServiceTypeController extends Controller
             $serviceType->status=0;
         }
         $serviceType->update();
-
         return redirect()->route('serviceType.create')
             ->with('status', 'ServiceType Updated successfully!');
     }

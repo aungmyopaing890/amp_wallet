@@ -13,10 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('levels', function (Blueprint $table) {
+        Schema::create('banker_logs', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
-            $table->longText('description')->nullable();
+            $table->foreignId('banker_wallet_id');
+            $table->double('amount');//Staff
+            $table->string('description')->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('levels');
+        Schema::dropIfExists('banker_logs');
     }
 };

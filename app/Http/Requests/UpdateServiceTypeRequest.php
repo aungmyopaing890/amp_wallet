@@ -25,7 +25,7 @@ class UpdateServiceTypeRequest extends FormRequest
     {
         return [
             "name"=>"required|string",
-            "img"=>"nullable",
+            "imgPath"=>"nullable",
             "status"=>"nullable",
         ];
     }

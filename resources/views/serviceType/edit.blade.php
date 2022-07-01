@@ -3,7 +3,7 @@
         <div class="col-12 mb-md-0 mb-4">
             <div class="card">
                 <div class="card-header pb-0">
-                    <h3>Level</h3>
+                    <h3>ServiceType</h3>
                 </div>
                 <div class="card-body px-0 pb-2">
                     <div class="row">
@@ -38,12 +38,23 @@
                             <div class="row justify-content-center">
                                 <div class="mb-4 col-10 col-md-6">
                                     <div class="col-6">
-                                        <label for="status" class="col-md-4 col-form-label text-md-end">{{ __('Image') }}</label>
-                                        <img src="{{asset('storage/servicesType/'.$serviceType->img)}}" id="imgPreview" class="cover-img w-100 rounded  @error('img') border border-danger is-invalid  @enderror" alt="">
-                                        <input type="file" class="d-none" name="img" id="img">
-                                        @error('img')
-                                        <p class="invalid-feedback ps-2">{{ $message }}</p>
-                                        @enderror
+                                        @if($serviceType->imgPath=="")
+                                            <x-image-upload
+                                                id="imgPreview"
+                                                src="{{asset('storage/servicesType/image-default.png')}}"
+                                                class="cover-img w-100 rounded border-0"
+                                                alt=""  />
+                                        @else
+                                            <x-image-upload
+                                                id="imgPreview"
+                                                src="{{asset('storage/'.$serviceType->imgPath)}}"
+                                                class="cover-img w-100 rounded border-0"
+                                                alt=""  />
+                                        @endif
+                                        <x-input id="imgPath"
+                                                 type="file"
+                                                 name="imgPath"
+                                                 class="d-none"/>
                                     </div>
                                 </div>
                             </div>
@@ -62,7 +73,7 @@
     </div>
     <script>
         let coverPreview=document.querySelector("#imgPreview");
-        let cover=document.querySelector("#img");
+        let cover=document.querySelector("#imgPath");
         coverPreview.addEventListener("click",_=>cover.click())
         cover.addEventListener("change",_=>{
             let reader =new FileReader();

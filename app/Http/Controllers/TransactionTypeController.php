@@ -30,7 +30,6 @@ class TransactionTypeController extends Controller
         $transactionTypes=TransactionType::all();
         return view('transactionType.create',compact('transactionTypes','currencies'));
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -53,7 +52,7 @@ class TransactionTypeController extends Controller
      */
     public function show(TransactionType $transaction_type)
     {
-        //
+
     }
 
     /**

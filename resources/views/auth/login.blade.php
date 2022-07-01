@@ -51,7 +51,16 @@
                                 <div class="card-body">
                                     <x-form method="POST" action="{{ route('login') }}">
                                         @csrf
-
+                                        @if($errors->any())
+                                            <div class="alert alert-danger">
+                                                <p><strong>Opps Something went wrong</strong></p>
+                                                <ul>
+                                                    @foreach ($errors->all() as $error)
+                                                        <li>{{ $error }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        @endif
                                         <label for="email" class="col-form-label text-md-end">{{ __('Email Address') }}</label>
                                         <div class="mb-3">
                                             <x-input id="email"

@@ -19,9 +19,11 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'email',
+        'name',
+        'role_id',
+        'profile_id',
         'password',
     ];
-
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -31,7 +33,6 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
-
     /**
      * The attributes that should be cast.
      *
@@ -40,4 +41,27 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public function profile()
+    {
+        return $this->hasOne(Profile::class);
+    }
+    public function wallet()
+    {
+        return $this->hasOne(Wallet::class);
+    }
+    public function role()
+    {
+        return collect(config('amp.roles'))->where('id', $this->role_id)->first()['name'];
+    }
+    /**
+     * Set the user's password hashing.
+     *
+     * @param  string  $password
+     * @return void
+     */
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password'] = bcrypt($password);
+    }
+
 }

@@ -18,9 +18,9 @@ return new class extends Migration
             $table->string('name');
             $table->double('daily_amount');
             $table->double('monthly_amount');
-            $table->foreignId('level_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('transaction_type_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('currency_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->string('level_id');
+            $table->foreignId('transaction_type_id');
+            $table->foreignId('currency_id');
             $table->longText('description');
             $table->timestamps();
         });

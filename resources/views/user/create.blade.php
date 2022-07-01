@@ -7,7 +7,7 @@
                         <div class="col-lg-6 col-7 mb-3">
                             <h6>Create New Users</h6>
                         </div>
-                        <form method="POST" action="{{route('user.create') }}">
+                        <form method="POST" action="{{route('user.store') }}" enctype="multipart/form-data">
                             @csrf
                             <div class="row">
                                 <div class="col-md-6">
@@ -35,10 +35,8 @@
                                                      required  />
                                         </div>
                                     </div>
-
                                     <div class="row mb-3">
                                         <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('E-Mail Address') }}</label>
-
                                         <div class="col-md-6">
                                             <x-input id="email"
                                                      type="name"
@@ -51,7 +49,6 @@
                                     </div>
                                     <div class="row mb-3">
                                         <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
-
                                         <div class="col-md-6">
                                             <x-input id="password"
                                                      type="password"
@@ -62,35 +59,40 @@
                                                      required  />
                                         </div>
                                     </div>
-                                    <div class="row mb-3">
-                                        <label for="password-confirm" class="col-md-4 col-form-label text-md-end">{{ __('Confirm Password') }}</label>
-
-                                        <div class="col-md-6">
-                                            <x-input id="password-confirm"
-                                                     type="password"
-                                                     name="password-confirm"
-                                                     :value="old('password')"
-                                                     class="form-control"
-                                                     placeholder="Confirm Password"
-                                                     required  />
-                                        </div>
+                                    <x-select
+                                        id="role"
+                                        name="role_id"
+                                        :value="$roles"
+                                        class="form-control"
+                                        required
+                                    />
+                                    <div class="col-6">
+                                        <x-image-upload
+                                            id="imgPreview"
+                                            src="{{asset('storage/services/image-default.png')}}"
+                                            class="cover-img w-100 rounded border-0"
+                                            alt=""  />
+                                        <x-input id="imgPath"
+                                                 type="file"
+                                                 name="imgPath"
+                                                 class="d-none"/>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="row mb-3">
-                                        <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Country') }}</label>
+                                        <label for="address" class="col-md-4 col-form-label text-md-end">{{ __('Address') }}</label>
                                         <div class="col-md-6">
-                                            <x-input id="country"
+                                            <x-input id="address"
                                                      type="text"
-                                                     name="country"
-                                                     :value="old('country')"
+                                                     name="address"
+                                                     :value="old('address')"
                                                      class="form-control"
-                                                     placeholder="country"
+                                                     placeholder="address"
                                                      required  />
                                         </div>
                                     </div>
                                     <div class="row mb-3">
-                                        <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('National ID') }}</label>
+                                        <label for="nrc" class="col-md-4 col-form-label text-md-end">{{ __('National ID') }}</label>
                                         <div class="col-md-6">
                                             <x-input id="nrc"
                                                      type="text"
@@ -102,7 +104,7 @@
                                         </div>
                                     </div>
                                     <div class="row mb-3">
-                                        <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Date Of Birth') }}</label>
+                                        <label for="dob" class="col-md-4 col-form-label text-md-end">{{ __('Date Of Birth') }}</label>
                                         <div class="col-md-6">
                                             <x-input id="dob"
                                                      type="date"
@@ -113,7 +115,7 @@
                                         </div>
                                     </div>
                                     <div class="row mb-3">
-                                        <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Phone Number') }}</label>
+                                        <label for="phoneNumber" class="col-md-4 col-form-label text-md-end">{{ __('Phone Number') }}</label>
                                         <div class="col-md-6">
                                             <x-input id="phoneNumber"
                                                      type="text"
@@ -124,6 +126,13 @@
                                                      required  />
                                         </div>
                                     </div>
+                                    <x-select
+                                        id="currency"
+                                        name="currency_id"
+                                        :value="$currencies"
+                                        class="form-control"
+                                        required
+                                    />
                                 </div>
                             </div>
                             <div class="row mb-0">
@@ -145,5 +154,17 @@
         </div>
 
     </div>
+    <script>
+        let coverPreview=document.querySelector("#imgPreview");
+        let cover=document.querySelector("#imgPath");
+        coverPreview.addEventListener("click",_=>cover.click())
+        cover.addEventListener("change",_=>{
+            let reader =new FileReader();
+            reader.onload =function () {
+                coverPreview.src=reader.result;
+            }
+            reader.readAsDataURL(cover.files[0]);
+        })
+    </script>
 </x-master-layout>
 

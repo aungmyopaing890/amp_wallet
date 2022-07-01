@@ -5,7 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\service>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\services>
  */
 class ServiceFactory extends Factory
 {
@@ -17,7 +17,11 @@ class ServiceFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name' => "MPT Bill",
+            'description' => "MPT Bill",
+            'price' => '1000',
+            'sorting' => "1",
+            'service_type_id' => "1",
         ];
     }
 }

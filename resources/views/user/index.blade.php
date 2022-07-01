@@ -4,7 +4,6 @@
             <div class="card mb-4">
                 <div class="card-header pb-0">
                     <h6>User table</h6>
-
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
                     <div class="table-responsive p-0">
@@ -12,7 +11,7 @@
                             <thead>
                             <tr>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Users</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Function</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Data</th>
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
                             </tr>
@@ -23,7 +22,11 @@
                                     <td>
                                         <div class="d-flex px-2 py-1">
                                             <div>
-                                                <img src="{{asset('adminDashboard/assets/img/team-2.jpg')}}" class="avatar avatar-sm me-3" alt="user1">
+                                                @if($user->profile->imgPath=="")
+                                                    <img src="{{asset('storage/users/image-default.jpg')}}" class="avatar avatar-sm me-3" alt="user1">
+                                                @else
+                                                    <img src="{{asset('storage/'.$user->profile->imgPath)}}" class="avatar avatar-sm me-3" alt="user1">
+                                                @endif
                                             </div>
                                             <div class="d-flex flex-column justify-content-center">
                                                 <h6 class="mb-0 text-sm">{{$user->name}}</h6>
@@ -32,14 +35,20 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <p class="text-xs font-weight-bold mb-0">Manager</p>
-                                        <p class="text-xs text-secondary mb-0">Organization</p>
+                                        <p class="text-xs font-weight-bold mb-0">{{$user->role()}}</p>
+                                        <p class="text-xs text-secondary mb-0">{{$user->profile->phoneNumber}}</p>
                                     </td>
                                     <td class="align-middle text-center text-sm">
-                                        <span class="badge badge-sm bg-gradient-success">Active</span>
+                                        <span class="badge badge-sm {{$user->status==1 ? 'bg-gradient-success':'bg-gradient-danger' }}">{{$user->status==1 ? 'Active':'Baned' }}</span>
                                     </td>
                                     <td class="align-middle text-center">
-                                        <a href="{{route('user.destroy',$user->id)}}" class="text-decoration-none"><i class="feather-trash-2 text-danger fa-2x"></i></a>
+                                        <form action="{{ route('user.destroy',$user->id) }}" class="d-inline-block" method="post">
+                                            @csrf
+                                            @method("delete")
+                                            <button class="btn btn-outline-danger btn-sm">
+                                                <i class="feather-trash-2 fa-3x"></i>
+                                            </button>
+                                        </form>
                                         <a href="{{route('user.edit',$user->id)}}" class="text-decoration-none"><i class="feather-edit text-primary fa-2x"></i></a>
                                     </td>
                                 </tr>

@@ -17,7 +17,7 @@ class ServiceTypeFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name' => "Top Up",
         ];
     }
 }

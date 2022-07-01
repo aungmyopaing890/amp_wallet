@@ -37,12 +37,15 @@
                             <div class="row justify-content-center">
                                 <div class="mb-4 col-10 col-md-6">
                                     <div class="col-6">
-                                        <label for="status" class="col-md-4 col-form-label text-md-end">{{ __('Image') }}</label>
-                                        <img src="{{asset('storage/servicesType/image-default.png')}}" id="imgPreview" class="cover-img w-100 rounded  @error('img') border border-danger is-invalid  @enderror" alt="">
-                                        <input type="file" class="d-none" name="img" id="img">
-                                        @error('img')
-                                        <p class="invalid-feedback ps-2">{{ $message }}</p>
-                                        @enderror
+                                        <x-image-upload
+                                            id="imgPreview"
+                                            src="{{asset('storage/servicesType/image-default.png')}}"
+                                            class="cover-img w-100 rounded border-0"
+                                            alt=""  />
+                                        <x-input id="imgPath"
+                                                 type="file"
+                                                 name="imgPath"
+                                                 class="d-none"/>
                                     </div>
                                 </div>
                             </div>
@@ -76,12 +79,17 @@
                                                 <p class="text-xs mb-0">{{$serviceType->id}}</p>
                                             </td>
                                             <td>
-                                                <img src="{{ asset('storage/servicesType/'.$serviceType->img) }}" style="height: 50px" class="rounded shadow-sm" alt="">
+                                                @if($serviceType->imgPath=="")
+                                                    <img src="{{asset('storage/serviceTypes/image-default.png')}}" style="height: 50px" class="rounded shadow-sm" alt="">
+                                                @else
+                                                    <img src="{{asset($serviceType->imgPath)}}" style="height: 50px" class="rounded shadow-sm" alt="">
+                                                @endif
                                             </td>
                                             <td>
                                                 <div class="d-flex px-2 py-1">
                                                     <div class="d-flex flex-column justify-content-center">
-                                                        <h6 class="mb-0 text-sm">{{$serviceType->name}}</h6>
+                                                        <a href="{{route('serviceType.show',$serviceType)}}"><h6 class="mb-0 text-sm">{{$serviceType->name}}</h6>
+                                                        </a>
                                                     </div>
                                                 </div>
                                             </td>
@@ -111,7 +119,7 @@
     </div>
     <script>
         let coverPreview=document.querySelector("#imgPreview");
-        let cover=document.querySelector("#img");
+        let cover=document.querySelector("#imgPath");
         coverPreview.addEventListener("click",_=>cover.click())
         cover.addEventListener("change",_=>{
             let reader =new FileReader();

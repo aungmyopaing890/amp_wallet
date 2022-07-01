@@ -12,6 +12,7 @@
             <x-menu-item name="Dashboard" class="feather-shopping-bag" link="{{route('dashboard')}}" ></x-menu-item>
             <x-menu-item name="Users" class="feather-user" link="{{route('user.index')}}"></x-menu-item>
             <x-menu-title title="Manage Account"></x-menu-title>
+            <x-menu-item name="Service" class="feather-toggle-left" link="{{route('service.create')}}"></x-menu-item>
             <x-menu-item name="ServiceType" class="feather-toggle-left" link="{{route('serviceType.create')}}"></x-menu-item>
             <x-menu-item name="Currency" class="feather-dollar-sign" link="{{route('currency.create')}}"></x-menu-item>
             <x-menu-item name="Level" class="feather-layers" link="{{route('level.create')}}"></x-menu-item>

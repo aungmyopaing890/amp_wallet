@@ -13,4 +13,8 @@ class ServiceType extends Model
 //        'img',
 //        'status'
 //    ];
+    public function services()
+    {
+        return $this->hasMany(Service::class);
+    }
 }

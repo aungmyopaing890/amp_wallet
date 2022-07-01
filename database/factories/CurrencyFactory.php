@@ -17,7 +17,8 @@ class CurrencyFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name' => 'MMK',
+            'symbol' => "MMK",
         ];
     }
 }
