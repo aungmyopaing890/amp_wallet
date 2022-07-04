@@ -52,7 +52,7 @@
                                     <x-select
                                         id="role"
                                         name="role_id"
-                                        :value="$roles"
+                                        :options="$roles"
                                         class="form-control"
                                         :selected="$user->role_id"
                                         required

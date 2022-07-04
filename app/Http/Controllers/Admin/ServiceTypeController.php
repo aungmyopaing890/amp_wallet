@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\ServiceType;
 use App\Http\Requests\StoreServiceTypeRequest;
 use App\Http\Requests\UpdateServiceTypeRequest;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\Controller;
 
 class ServiceTypeController extends Controller
 {
@@ -26,7 +27,7 @@ class ServiceTypeController extends Controller
     public function create()
     {
         $serviceTypes=ServiceType::all();
-        return view('serviceType.create',compact('serviceTypes'));
+        return view('Admin.serviceType.create',compact('serviceTypes'));
     }
 
     /**
@@ -58,7 +59,7 @@ class ServiceTypeController extends Controller
      */
     public function show(ServiceType $serviceType)
     {
-        return view('serviceType.show',compact('serviceType'));
+        return view('Admin.serviceType.show',compact('serviceType'));
     }
 
     /**
@@ -69,7 +70,7 @@ class ServiceTypeController extends Controller
      */
     public function edit(ServiceType $serviceType)
     {
-        return view('serviceType.edit',compact('serviceType'));
+        return view('Admin.serviceType.edit',compact('serviceType'));
     }
     /**
      * Update the specified resource in storage.

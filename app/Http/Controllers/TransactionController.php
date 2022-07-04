@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Transaction;
+use App\Models\User;
+use App\Models\Wallet;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Symfony\Component\Console\Input\Input;
 
 class TransactionController extends Controller
 {
@@ -22,11 +26,44 @@ class TransactionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(User $user)
     {
-        //
+
     }
 
+    /**
+     * Show the form for Deposit.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getDeposit()
+    {
+        return view('Transaction.deposit');
+    }
+    public  function getUsername(){
+        $wallet=DB::table('wallet')->where('id',Input::get('wallet_id'))->get();
+
+        if ($wallet->count() > 0) {
+            echo json_encode(
+                array(
+                    'username' => $wallet->user->name
+                ));        }
+        else {
+            echo json_encode(
+                array(
+                    'username' =>0
+                ));
+        }
+    }
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function postDeposit(Request $request)
+    {
+
+    }
     /**
      * Store a newly created resource in storage.
      *

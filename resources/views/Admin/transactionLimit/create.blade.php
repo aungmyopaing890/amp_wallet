@@ -7,9 +7,8 @@
                 </div>
                 <div class="card-body px-0 pb-2">
                     <div class="row">
-                        <form method="POST" action="{{route('transactionLimit.update',$transactionLimit) }}">
+                        <form method="POST" action="{{route('transactionLimit.store') }}">
                             @csrf
-                            @method('put')
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="row mb-3">
@@ -18,7 +17,7 @@
                                             <x-input id="name"
                                                      type="name"
                                                      name="name"
-                                                     :value="$transactionLimit->name"
+                                                     :value="old('name')"
                                                      class="form-control"
                                                      placeholder="name"
                                                      required  />
@@ -32,7 +31,7 @@
                                             <x-input id="daily_amount"
                                                      type="number"
                                                      name="daily_amount"
-                                                     :value="$transactionLimit->daily_amount"
+                                                     :value="old('daily_amount')"
                                                      class="form-control"
                                                      placeholder="daily amount"
                                                      required  />
@@ -46,7 +45,7 @@
                                             <x-input id="monthly_amount"
                                                      type="number"
                                                      name="monthly_amount"
-                                                     :value="$transactionLimit->monthly_amount"
+                                                     :value="old('monthly_amount')"
                                                      class="form-control"
                                                      placeholder="monthly amount"
                                                      required  />
@@ -61,7 +60,7 @@
                                                 <div class="btn-group btn-group-toggle w-100" data-toggle="buttons">
                                                     @foreach($currencies as $c)
                                                         <label class="btn btn-outline-secondary">
-                                                            <input type="radio" name="currency_id" id="option1" value="{{ $c->id }}" {{ $transactionLimit->currency_id == $c->id ? "checked" : "" }}> {{ $c->name }}
+                                                            <input type="radio" name="currency_id" id="option1" value="{{ $c->id }}" {{ old('currency_id') == $c->id ? "checked" : "" }}> {{ $c->name }}
                                                         </label>
                                                     @endforeach
                                                 </div>
@@ -73,8 +72,7 @@
                                     <x-select
                                         id="transactionType"
                                         name="transaction_type_id"
-                                        :value="$transactionTypes"
-                                        :selected="$transactionLimit->transactionTypes"
+                                        :options="$transactionTypes"
                                         class="form-control"
                                         required
                                     />
@@ -83,8 +81,7 @@
                                     <x-select
                                         id="level"
                                         name="level_id"
-                                        :value="$levels"
-                                        class="form-control"
+                                        :options="$levels"
                                         required
                                     />
                                 </div>
@@ -95,7 +92,7 @@
                                             <x-input id="description"
                                                      type="text"
                                                      name="description"
-                                                     :value="$transactionLimit->description"
+                                                     :value="old('description')"
                                                      class="form-control"
                                                      placeholder="Description"
                                                      required  />
@@ -106,11 +103,67 @@
                             <div class="row mb-0">
                                 <div class="col-12 offset-md-4">
                                     <button type="submit" class="btn btn-primary">
-                                        {{ __('Update') }}
+                                        {{ __('Add') }}
                                     </button>
                                 </div>
                             </div>
                         </form>
+                    </div>
+                    <hr>
+                    <div class="table-responsive">
+                        <div class="card-body px-0 pt-0 pb-2">
+                            <div class="table-responsive p-0">
+                                <table class="table align-items-center mb-0">
+                                    <thead>
+                                    <tr>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">#</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">name</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Charge Percentage</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Currency</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Description</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($transactionLimits as $transactionLimit)
+                                        <tr>
+                                            <td>
+                                                <p class="text-xs mb-0">{{$transactionLimit->id}}</p>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex px-2 py-1">
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <a href="{{route('transactionLimit.show',$transactionLimit->id)}}">
+                                                            <h6 class="mb-0 text-sm">{{$transactionLimit->name}}</h6>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <p class="text-xs mb-0">{{$transactionLimit->daily_amount}}</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-xs mb-0">{{$transactionLimit->currency->name}}</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-xs mb-0">{{$transactionLimit->description}}</p>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <form action="{{ route('transactionLimit.destroy',$transactionLimit->id) }}" class="d-inline-block" method="post">
+                                                    @csrf
+                                                    @method("delete")
+                                                    <button class="btn btn-outline-danger btn-sm">
+                                                        <i class="feather-trash-2 fa-3x"></i>
+                                                    </button>
+                                                </form>
+                                                <a href="{{route('transactionLimit.edit',$transactionLimit->id)}}" class="text-decoration-none"><i class="feather-edit text-primary fa-2x"></i></a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

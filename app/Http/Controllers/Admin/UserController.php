@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
@@ -10,14 +10,24 @@ use App\Models\User;
 use App\Models\Wallet;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\Controller;
 
 class UserController extends Controller
 {
     public function index()
     {
-        $users=User::latest('id')->paginate('5');
-        $roles=collect(config('amp.roles'));
-        return view('user.index',compact('users','roles'));
+        $users=User::latest('id')->where('role_id','1')->orwhere('role_id','2')->get();
+        return view('user.index',compact('users'));
+    }
+    public function customerIndex()
+    {
+        $users=User::where('role_id','3')->get();
+        return view('user.index',compact('users'));
+    }
+    public function merchantIndex()
+    {
+        $users=User::latest('id')->where('role_id','4')->get();
+        return view('user.index',compact('users'));
     }
     public function  create(){
         $roles=collect(config('amp.roles'));
@@ -72,14 +82,12 @@ class UserController extends Controller
         $user->email=$request['email'];
         $user->role_id=$request['role_id'];
         $user->update();
-
         $profile=$user->profile;
         $profile->fullName=$request['fullName'];
         $profile->address=$request['address'];
         $profile->nrc=$request['nrc'];
         $profile->dob=$request['dob'];
         $profile->phoneNumber=$request['phoneNumber'];
-
         if ($request->hasFile('imgPath')) {
             Storage::delete('public/'.$profile->imgPath);
             $profile->imgPath=store_image($request,'users','imgPath');
@@ -103,5 +111,4 @@ class UserController extends Controller
         return redirect()->back()
             ->with('status', 'User Deleted successfully!');
     }
-
 }

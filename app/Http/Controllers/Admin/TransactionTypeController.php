@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\currency;
 use App\Models\TransactionType;
 use App\Http\Requests\StoretransactionTypeRequest;
 use App\Http\Requests\updatetransactionTypeRequest ;
+use App\Http\Controllers\Controller;
 
 class TransactionTypeController extends Controller
 {
@@ -28,7 +29,7 @@ class TransactionTypeController extends Controller
     {
         $currencies=currency::all();
         $transactionTypes=TransactionType::all();
-        return view('transactionType.create',compact('transactionTypes','currencies'));
+        return view('Admin.transactionType.create',compact('transactionTypes','currencies'));
     }
     /**
      * Store a newly created resource in storage.
@@ -40,7 +41,7 @@ class TransactionTypeController extends Controller
     {
         $data=$request->validated();
         TransactionType::create($data);
-        return redirect()->route('transactionType.create')
+        return redirect()->route('Admin.transactionType.create')
             ->with('flash', 'New TransactionType created successfully!');
     }
 
@@ -64,7 +65,7 @@ class TransactionTypeController extends Controller
     public function edit(TransactionType $transactionType)
     {
         $currencies=currency::all();
-        return view('transactionType.edit',compact('currencies','transactionType'));
+        return view('Admin.transactionType.edit',compact('currencies','transactionType'));
     }
 
     /**
@@ -78,7 +79,7 @@ class TransactionTypeController extends Controller
     {
         $data=$request->validated();
         $transactionType->update($data);
-        return redirect()->route('transactionType.create')
+        return redirect()->route('Admin.transactionType.create')
             ->with('status', 'TransactionType updated successfully!');
     }
 

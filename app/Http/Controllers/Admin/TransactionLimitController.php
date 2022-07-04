@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\currency;
-use App\Models\Level;
 use App\Models\TransactionType;
 use App\Models\TransactionLimit;
 use App\Http\Requests\StoretransactionLimitRequest;
 use App\Http\Requests\UpdatetransactionLimitRequest;
-use \Illuminate\Support\Facades\Config;
+use App\Http\Controllers\Controller;
 
 class TransactionLimitController extends Controller
 {
@@ -32,7 +31,7 @@ class TransactionLimitController extends Controller
         $transactionTypes=TransactionType::all();
         $levels=collect(config('amp.levels'));
         $transactionLimits=TransactionLimit::all();
-        return view('transactionLimit.create',compact('transactionTypes','currencies','levels','transactionLimits'));
+        return view('Admin.transactionLimit.create',compact('transactionTypes','currencies','levels','transactionLimits'));
     }
 
     /**
@@ -70,8 +69,8 @@ class TransactionLimitController extends Controller
     {
         $currencies=currency::all();
         $transactionTypes=TransactionType::all();
-        $levels=\Illuminate\Support\Facades\Config::get('app.levels');
-        return view('transactionLimit.edit',compact('transactionTypes','currencies','levels','transactionLimit'));
+        $levels=collect(config('amp.levels'));
+        return view('Admin.transactionLimit.edit',compact('transactionTypes','currencies','levels','transactionLimit'));
 
     }
 
@@ -88,7 +87,6 @@ class TransactionLimitController extends Controller
         $transactionLimit->update($data);
         return redirect()->route('transactionLimit.create')
             ->with('status', 'New Transaction Limit updated successfully!');
-
     }
 
     /**
@@ -100,6 +98,6 @@ class TransactionLimitController extends Controller
     public function destroy(TransactionLimit $transactionLimit)
     {
         $transactionLimit->delete();
-        return   redirect()->back();
+        return redirect()->back();
     }
 }

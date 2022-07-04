@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\Level;
 use App\Http\Requests\StorelevelRequest;
 use App\Http\Requests\UpdatelevelRequest;
+use App\Http\Controllers\Controller;
 
 class LevelController extends Controller
 {

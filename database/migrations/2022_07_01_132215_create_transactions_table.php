@@ -21,7 +21,7 @@ return new class extends Migration
             $table->double('charged');
             $table->double('total');
             $table->foreignId('currency_id');
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->foreignId('user_id');//Staff
             $table->foreignId('transactionType_id');
             $table->foreignId('service_id')->nullable();

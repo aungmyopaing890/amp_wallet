@@ -13,4 +13,8 @@ class Wallet extends Model
         'currency_id',
         'balance',
     ];
+    public function user()
+    {
+        return $this->hasOne(User::class);
+    }
 }

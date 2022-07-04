@@ -52,7 +52,7 @@
                                     <x-select
                                         id="serviceType"
                                         name="service_type_id"
-                                        :value="$serviceTypes"
+                                        :options="$serviceTypes"
                                         :selected="$service->service_type_id"
                                         class="form-control"
                                         required
@@ -92,8 +92,11 @@
                                 <div class="mb-4 col-10 col-md-6">
                                     <div class="col-6">
                                         <label for="status" class="col-md-4 col-form-label text-md-end">{{ __('Image') }}</label>
-                                        <img src="{{asset('storage/services/'.$service->img)}}" id="imgPreview" class="cover-img w-100 rounded  @error('img') border border-danger is-invalid  @enderror" alt="">
-                                        <input type="file" class="d-none" name="img" id="img">
+                                        <img src="{{asset('storage/'.$service->imgPath)}}"
+                                             id="imgPreview"
+                                             class="cover-img w-100 rounded  @error('img') border border-danger is-invalid  @enderror"
+                                             alt="">
+                                        <input type="file" class="d-none" name="imgPath" id="imgPath">
                                         @error('img')
                                         <p class="invalid-feedback ps-2">{{ $message }}</p>
                                         @enderror
@@ -116,7 +119,7 @@
     </div>
     <script>
         let coverPreview=document.querySelector("#imgPreview");
-        let cover=document.querySelector("#img");
+        let cover=document.querySelector("#imgPath");
         coverPreview.addEventListener("click",_=>cover.click())
         cover.addEventListener("change",_=>{
             let reader =new FileReader();

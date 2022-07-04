@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\currency;
 use App\Http\Requests\StorecurrencyRequest;
 use App\Http\Requests\UpdatecurrencyRequest;
+use App\Http\Controllers\Controller;
 
 class CurrencyController extends Controller
 {
@@ -26,7 +27,7 @@ class CurrencyController extends Controller
     public function create()
     {
         $currencies=currency::all();
-        return view('currency.create',compact('currencies'));
+        return view('Admin.currency.create',compact('currencies'));
     }
 
     /**
@@ -39,7 +40,7 @@ class CurrencyController extends Controller
     {
         $data=$request->validated();
         currency::create($data);
-        return redirect()->route('currency.create')
+        return redirect()->route('Admin.currency.create')
             ->with('flash', 'User created successfully!');
     }
 
@@ -62,7 +63,7 @@ class CurrencyController extends Controller
      */
     public function edit(currency $currency)
     {
-        return view('currency.edit', compact('currency'));
+        return view('Admin.currency.edit', compact('currency'));
     }
 
     /**
@@ -77,7 +78,7 @@ class CurrencyController extends Controller
         $data=$request->validated();
         $currency->update($data);
 
-        return redirect()->route('currency.create')
+        return redirect()->route('Admin.currency.create')
             ->with('status', 'Currency updated successfully!');
     }
 

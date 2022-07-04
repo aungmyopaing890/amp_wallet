@@ -31,7 +31,6 @@ class StoretransactionLimitRequest extends FormRequest
             "transaction_type_id"=>"required",
             "currency_id"=>"required",
             "description"=>"required",
-
         ];
 
     }

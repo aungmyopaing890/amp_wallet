@@ -51,7 +51,7 @@
                                     <x-select
                                         id="serviceType"
                                         name="service_type_id"
-                                        :value="$serviceTypes"
+                                        :options="$serviceTypes"
                                         class="form-control"
                                         required
                                     />
@@ -94,9 +94,9 @@
                                                 src="{{asset('storage/services/image-default.png')}}"
                                                 class="cover-img w-100 rounded border-0"
                                                 alt=""  />
-                                        <x-input id="img"
+                                        <x-input id="imgPath"
                                                  type="file"
-                                                 name="img"
+                                                 name="imgPath"
                                                  :value="old('sorting')"
                                                  class="d-none"
                                                  required  />
@@ -136,7 +136,7 @@
                                                 <p class="text-xs mb-0">{{$service->id}}</p>
                                             </td>
                                             <td>
-                                                <img src="{{ asset('storage/services/'.$service->img) }}" style="height: 50px" class="rounded shadow-sm" alt="">
+                                                <img src="{{ asset('storage/'.$service->imgPath) }}" style="height: 50px" class="rounded shadow-sm" alt="">
                                             </td>
                                             <td>
                                                 <div class="d-flex px-2 py-1">
@@ -177,7 +177,7 @@
     </div>
     <script>
         let coverPreview=document.querySelector("#imgPreview");
-        let cover=document.querySelector("#img");
+        let cover=document.querySelector("#imgPath");
         coverPreview.addEventListener("click",_=>cover.click())
         cover.addEventListener("change",_=>{
             let reader =new FileReader();

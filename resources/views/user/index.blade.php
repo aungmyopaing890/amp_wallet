@@ -12,6 +12,7 @@
                             <tr>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Users</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Data</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Balance</th>
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
                             </tr>
@@ -38,6 +39,10 @@
                                         <p class="text-xs font-weight-bold mb-0">{{$user->role()}}</p>
                                         <p class="text-xs text-secondary mb-0">{{$user->profile->phoneNumber}}</p>
                                     </td>
+
+                                    <td>
+                                        <p class="text-xs font-weight-bold mb-0">{{$user->wallet->balance}} MMK</p>
+                                    </td>
                                     <td class="align-middle text-center text-sm">
                                         <span class="badge badge-sm {{$user->status==1 ? 'bg-gradient-success':'bg-gradient-danger' }}">{{$user->status==1 ? 'Active':'Baned' }}</span>
                                     </td>
@@ -49,7 +54,8 @@
                                                 <i class="feather-trash-2 fa-3x"></i>
                                             </button>
                                         </form>
-                                        <a href="{{route('user.edit',$user->id)}}" class="text-decoration-none"><i class="feather-edit text-primary fa-2x"></i></a>
+                                        <a href="" class="text-decoration-none"><i class="feather-edit text-primary fa-2x"></i></a>
+                                        <a href="{{route('user.edit',$user)}}" class="text-decoration-none"><i class="feather-edit text-primary fa-2x"></i></a>
                                     </td>
                                 </tr>
                             @endforeach

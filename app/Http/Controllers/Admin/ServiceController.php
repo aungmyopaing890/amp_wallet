@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\Service;
 use App\Http\Requests\StoreserviceRequest;
 use App\Http\Requests\UpdateserviceRequest;
 use App\Models\ServiceType;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\Controller;
 
 class ServiceController extends Controller
 {
@@ -29,7 +30,7 @@ class ServiceController extends Controller
     {
         $services= Service::all();
         $serviceTypes=ServiceType::all();
-        return view('service.create',compact('services','serviceTypes'));
+        return view('Admin.service.create',compact('services','serviceTypes'));
     }
 
     /**
@@ -42,8 +43,8 @@ class ServiceController extends Controller
     {
         $service=new Service();
         $service->name=$request->name;
-        if ($request->hasFile('img')) {
-            $service->img= store_image($request,'services','img');
+        if ($request->hasFile('imgPath')) {
+            $service->imgPath= store_image($request,'services','imgPath');
         }
         if($request->status!=""){
             $service->status=$request->status;
@@ -77,7 +78,7 @@ class ServiceController extends Controller
     public function edit(Service $service)
     {
         $serviceTypes=ServiceType::all();
-        return view('service.edit',compact('service','serviceTypes'));
+        return view('Admin.service.edit',compact('service','serviceTypes'));
     }
     /**
      * Update the specified resource in storage.
@@ -89,11 +90,11 @@ class ServiceController extends Controller
     public function update(UpdateserviceRequest $request, Service $service)
     {
         $service->name=$request->name;
-        if ($request->hasFile('img')) {
+        if ($request->hasFile('imgPath')) {
             if ($service->img!="image-default.png") {
-                Storage::delete("public/services/".$service->img);
+                Storage::delete("public/services/".$service->imgPath);
             }
-            $service->img= store_image($request,'services','img');
+            $service->imgPath= store_image($request,'services','imgPath');
         }
         if($request->status!=""){
             $service->status=$request->status;

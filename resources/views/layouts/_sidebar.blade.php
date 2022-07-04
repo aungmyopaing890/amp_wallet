@@ -9,16 +9,33 @@
     <hr class="horizontal dark mt-0">
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
         <ul class="navbar-nav">
-            <x-menu-item name="Dashboard" class="feather-shopping-bag" link="{{route('dashboard')}}" ></x-menu-item>
-            <x-menu-item name="Users" class="feather-user" link="{{route('user.index')}}"></x-menu-item>
-            <x-menu-title title="Manage Account"></x-menu-title>
-            <x-menu-item name="Service" class="feather-toggle-left" link="{{route('service.create')}}"></x-menu-item>
-            <x-menu-item name="ServiceType" class="feather-toggle-left" link="{{route('serviceType.create')}}"></x-menu-item>
-            <x-menu-item name="Currency" class="feather-dollar-sign" link="{{route('currency.create')}}"></x-menu-item>
-            <x-menu-item name="Level" class="feather-layers" link="{{route('level.create')}}"></x-menu-item>
-            <x-menu-item name="Transaction Type" class="feather-tag" link="{{route('transactionType.create')}}"></x-menu-item>
-            <x-menu-item name="Transaction Limit" class="feather-list" link="{{route('transactionLimit.create')}}"></x-menu-item>
+            @if(Auth::user()->role_id==1 ||Auth::user()->role_id==2)
+                <x-menu-item name="Dashboard" class="feather-shopping-bag" link="{{route('dashboard')}}" ></x-menu-item>
 
+                <x-menu-title title="Transaction"></x-menu-title>
+                <x-menu-item name="Deposit" class="feather-user" link="{{route('getDeposit')}}"></x-menu-item>
+                <x-menu-item name="Withdraw" class="feather-user" link=""></x-menu-item>
+
+                <x-menu-title title="Manage Users"></x-menu-title>
+                <x-menu-item name="Admin&staff" class="feather-user" link="{{route('user.index')}}"></x-menu-item>
+                <x-menu-item name="Customer" class="feather-user" link="{{route('customer.index')}}"></x-menu-item>
+                <x-menu-item name="Merchant" class="feather-user" link="{{route('merchant.index')}}"></x-menu-item>
+
+
+
+                <x-menu-title title="Manage Account"></x-menu-title>
+                <x-menu-item name="Service" class="feather-toggle-left" link="{{route('service.create')}}"></x-menu-item>
+                <x-menu-item name="ServiceType" class="feather-toggle-left" link="{{route('serviceType.create')}}"></x-menu-item>
+                <x-menu-item name="Currency" class="feather-dollar-sign" link="{{route('currency.create')}}"></x-menu-item>
+                <x-menu-item name="Transaction Type" class="feather-tag" link="{{route('transactionType.create')}}"></x-menu-item>
+                <x-menu-item name="Transaction Limit" class="feather-list" link="{{route('transactionLimit.create')}}"></x-menu-item>
+            @elseif(Auth::user()->role_id==3)
+
+            @elseif(Auth::user()->role_id==4)
+                <x-menu-title title="Manage"></x-menu-title>
+                <x-menu-item name="Deposit" class="feather-dollar-sign" link=""></x-menu-item>
+                <x-menu-item name="Withdraw" class="feather-dollar-sign" link=""></x-menu-item>-
+            @endif
             <li class="menu-item">
                 <a class="btn btn-outline-primary btn-block" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                     {{ __('Logout') }}

@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\BankerWallet;
+use App\Models\TransactionLog;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
-class BankerWalletController extends Controller
+class TransactionLogController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +42,10 @@ class BankerWalletController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\BankerWallet  $bankerWallet
+     * @param  \App\Models\TransactionLog  $transactionLog
      * @return \Illuminate\Http\Response
      */
-    public function show(BankerWallet $bankerWallet)
+    public function show(TransactionLog $transactionLog)
     {
         //
     }
@@ -52,10 +53,10 @@ class BankerWalletController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\BankerWallet  $bankerWallet
+     * @param  \App\Models\TransactionLog  $transactionLog
      * @return \Illuminate\Http\Response
      */
-    public function edit(BankerWallet $bankerWallet)
+    public function edit(TransactionLog $transactionLog)
     {
         //
     }
@@ -64,10 +65,10 @@ class BankerWalletController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\BankerWallet  $bankerWallet
+     * @param  \App\Models\TransactionLog  $transactionLog
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, BankerWallet $bankerWallet)
+    public function update(Request $request, TransactionLog $transactionLog)
     {
         //
     }
@@ -75,10 +76,10 @@ class BankerWalletController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\BankerWallet  $bankerWallet
+     * @param  \App\Models\TransactionLog  $transactionLog
      * @return \Illuminate\Http\Response
      */
-    public function destroy(BankerWallet $bankerWallet)
+    public function destroy(TransactionLog $transactionLog)
     {
         //
     }
