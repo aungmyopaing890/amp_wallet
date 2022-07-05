@@ -3,12 +3,17 @@
         <div class="col-12 mb-md-0 mb-4">
             <div class="card">
                 <div class="card-header pb-0">
-                    <h3>Deposit</h3>
+                    <h3>Withdraw</h3>
                 </div>
                 <div class="card-body px-0 pb-2">
                     <div class="row">
-                        <form method="POST" action="{{route('postDeposit')}}" enctype="multipart/form-data">
+                        <form method="POST" action="{{route('postWithdraw')}}" enctype="multipart/form-data">
                             @csrf
+                            @if(session()->has('error'))
+                                <div class="alert alert-danger">
+                                    {{ session()->get('error') }}
+                                </div>
+                            @endif
                             <div class="row">
                                 <div class="col-10 col-md-6">
                                     <div class="row mb-3">
@@ -24,7 +29,7 @@
                                         </div>
                                     </div>
                                     <div class="row mb-3">
-                                        <label for="amount" class="col-md-4 col-form-label text-md-end"> {{ __('Deposit amount') }}</label>
+                                        <label for="amount" class="col-md-4 col-form-label text-md-end"> {{ __('Withdraw amount') }}</label>
                                         <div class="col-md-6">
                                             <x-input id="amount"
                                                      type="number"
@@ -46,7 +51,7 @@
                             <div class="row mb-0 justify-content-center align-items-center">
                                 <div class="col-3">
                                     <button type="submit" class="btn btn-primary btn-lg ">
-                                        {{ __('Make Deposit') }}
+                                        {{ __('Make Withdraw') }}
                                     </button>
                                 </div>
                             </div>

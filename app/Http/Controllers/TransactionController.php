@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\DepositTransactionRequest;
+use App\Http\Requests\WithdrawTransactionRequest;
 use App\Models\Transaction;
+use App\Models\TransactionLimit;
 use App\Models\User;
 use App\Models\Wallet;
 use Illuminate\Http\Request;
@@ -54,6 +56,64 @@ class TransactionController extends Controller
     {
         $data=$request->validated();
         $wallet=Wallet::where('id',$data['wallet_id'])->first();
+
+        $transaction=New Transaction();
+        $transaction->to=$data['wallet_id'];
+        $transaction->transfer_amount=$data['amount'];
+        $transaction->total=$data['amount'];
+        $transaction->charged=0;
+        $transaction->currency_id=$wallet->currency_id;
+        $transaction->user_id=Auth::user()->id;
+        $transaction->transactionType_id=1;
+        $transaction->status=1;
+        $transaction->save();
+
+        $balance=$wallet->balance+$data['amount'];
+        $wallet->balance=$balance;
+        $wallet->update();
+
+        if ($wallet->user->role_id=='3'){
+            return redirect()->route('customer.index')
+                ->with('status', 'customer Deposit successfully!');
+        }
+        elseif($wallet->user->role_id=='4'){
+            return redirect()->route('merchant.index')
+                ->with('status', 'merchant Deposit successfully!');
+        }
+
+    }
+    /**
+     * Show the form for Deposit.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getWithdraw(string $user_id)
+    {
+        $user=User::where('id',$user_id)->first();
+        return view('Transaction.withdraw',compact('user'));
+    }
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param WithdrawTransactionRequest $request
+     * @return \Illuminate\Http\Response
+     */
+    public function postWithdraw(WithdrawTransactionRequest $request)
+    {
+        $data=$request->validated();
+        $wallet=Wallet::where('id',$data['wallet_id'])->first();
+        $limit=TransactionLimit::where('transaction_type_id','2')->where('currency_id',$wallet->currency_id)->first();
+//        if ($request->amount < $limit->daily_amount) {
+//            $notify[] = ['error', 'Your requested amount is smaller than minimum amount.'];
+//            return back()->withNotify($notify);
+//        }
+//        if ($request->amount < $limit->monthly_amount) {
+//            $notify[] = ['error', 'Your requested amount is smaller than minimum amount.'];
+//            return back()->withNotify($notify);
+//        }
+        if ($request->amount > $wallet->balance) {
+            return back()->with('error', 'You cannot withdraw more then your balance');
+        }
 
         $transaction=New Transaction();
         $transaction->to=$data['wallet_id'];

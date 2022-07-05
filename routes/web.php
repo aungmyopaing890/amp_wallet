@@ -29,6 +29,10 @@ Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])-
 Route::get('/deposit/{id}', [App\Http\Controllers\TransactionController::class, 'getDeposit'])->name('getDeposit');
 Route::post('/deposit', [App\Http\Controllers\TransactionController::class, 'postDeposit'])->name('postDeposit');;
 
+Route::get('/withdraw/{id}', [App\Http\Controllers\TransactionController::class, 'getWithdraw'])->name('getWithdraw');
+Route::post('/Withdraw', [App\Http\Controllers\TransactionController::class, 'postWithdraw'])->name('postWithdraw');;
+
+
 Route::get('/customer', 'App\Http\Controllers\Admin\UserController@customerIndex')->name('customer.index');
 Route::get('/merchant', 'App\Http\Controllers\Admin\UserController@merchantIndex')->name('merchant.index');
 
