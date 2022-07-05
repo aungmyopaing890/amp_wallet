@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DepositTransactionRequest;
 use App\Models\Transaction;
 use App\Models\User;
 use App\Models\Wallet;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\Console\Input\Input;
 
@@ -36,32 +38,46 @@ class TransactionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getDeposit()
+    public function getDeposit(string $user_id)
     {
-        return view('Transaction.deposit');
+        $user=User::where('id',$user_id)->first();
+        return view('Transaction.deposit',compact('user'));
     }
-    public  function getUsername(){
-        $wallet=DB::table('wallet')->where('id',Input::get('wallet_id'))->get();
 
-        if ($wallet->count() > 0) {
-            echo json_encode(
-                array(
-                    'username' => $wallet->user->name
-                ));        }
-        else {
-            echo json_encode(
-                array(
-                    'username' =>0
-                ));
-        }
-    }
     /**
      * Store a newly created resource in storage.
      *
+     * @param DepositTransactionRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function postDeposit(Request $request)
+    public function postDeposit(DepositTransactionRequest $request)
     {
+        $data=$request->validated();
+        $wallet=Wallet::where('id',$data['wallet_id'])->first();
+
+        $transaction=New Transaction();
+        $transaction->to=$data['wallet_id'];
+        $transaction->transfer_amount=$data['amount'];
+        $transaction->total=$data['amount'];
+        $transaction->charged=0;
+        $transaction->currency_id=$wallet->currency_id;
+        $transaction->user_id=Auth::user()->id;
+        $transaction->transactionType_id=1;
+        $transaction->status=1;
+        $transaction->save();
+
+        $balance=$wallet->balance+$data['amount'];
+        $wallet->balance=$balance;
+        $wallet->update();
+
+        if ($wallet->user->role_id=='3'){
+            return redirect()->route('customer.index')
+                ->with('status', 'customer Deposit successfully!');
+        }
+        elseif($wallet->user->role_id=='4'){
+            return redirect()->route('merchant.index')
+                ->with('status', 'merchant Deposit successfully!');
+        }
 
     }
     /**

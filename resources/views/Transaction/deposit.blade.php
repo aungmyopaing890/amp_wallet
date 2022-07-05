@@ -3,11 +3,11 @@
         <div class="col-12 mb-md-0 mb-4">
             <div class="card">
                 <div class="card-header pb-0">
-                    <h3>Service</h3>
+                    <h3>Deposit</h3>
                 </div>
                 <div class="card-body px-0 pb-2">
                     <div class="row">
-                        <form method="POST" action="" enctype="multipart/form-data">
+                        <form method="POST" action="{{route('postDeposit')}}" enctype="multipart/form-data">
                             @csrf
                             <div class="row">
                                 <div class="col-10 col-md-6">
@@ -15,20 +15,37 @@
                                         <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Wallet ID') }}</label>
                                         <div class="col-md-6">
                                             <x-input id="wallet_id"
-                                                     type="name"
+                                                     type="text"
                                                      name="wallet_id"
-                                                     :value="old('wallet_id')"
+                                                     :value="$user->wallet->id"
                                                      class="form-control"
                                                      placeholder="wallet id"
                                                      required  />
                                         </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label for="amount" class="col-md-4 col-form-label text-md-end"> {{ __('Deposit amount') }}</label>
+                                        <div class="col-md-6">
+                                            <x-input id="amount"
+                                                     type="number"
+                                                     name="amount"
+                                                     :value="old('amount')"
+                                                     class="form-control"
+                                                     placeholder="amount"
+                                                     required  />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-10 col-md-6">
+                                    <div class="row mb-3">
+                                        <label for="name" class="col-md-4 col-form-label text-md-end">{{$user->name }}</label>
                                     </div>
                                 </div>
                             </div>
                             <div class="row mb-0 justify-content-center align-items-center">
                                 <div class="col-3">
                                     <button type="submit" class="btn btn-primary btn-lg ">
-                                        {{ __('Add') }}
+                                        {{ __('Make Deposit') }}
                                     </button>
                                 </div>
                             </div>
@@ -38,11 +55,5 @@
             </div>
         </div>
     </div>
-    <script>
-        $(document).ready(function(){
-            $('#wallet_id').data('actval',$('#wallet_id').val());
-        });
-
-    </script>
 </x-master-layout>
 

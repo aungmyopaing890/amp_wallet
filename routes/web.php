@@ -26,10 +26,9 @@ Route::resource('serviceType',\App\Http\Controllers\Admin\ServiceTypeController:
 Route::resource('service',\App\Http\Controllers\Admin\ServiceController::class);
 Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');
 
-Route::get('/deposit', [App\Http\Controllers\TransactionController::class, 'getDeposit'])->name('getDeposit');
+Route::get('/deposit/{id}', [App\Http\Controllers\TransactionController::class, 'getDeposit'])->name('getDeposit');
 Route::post('/deposit', [App\Http\Controllers\TransactionController::class, 'postDeposit'])->name('postDeposit');;
 
 Route::get('/customer', 'App\Http\Controllers\Admin\UserController@customerIndex')->name('customer.index');
 Route::get('/merchant', 'App\Http\Controllers\Admin\UserController@merchantIndex')->name('merchant.index');
-Route::get('/checkUsername', [App\Http\Controllers\TransactionController::class, 'getUsername'])->name('checkUsername');;
 

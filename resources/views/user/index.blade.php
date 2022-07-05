@@ -39,10 +39,11 @@
                                         <p class="text-xs font-weight-bold mb-0">{{$user->role()}}</p>
                                         <p class="text-xs text-secondary mb-0">{{$user->profile->phoneNumber}}</p>
                                     </td>
-
+                                    @if($user->role_id==3 ||$user->role_id==4)
                                     <td>
                                         <p class="text-xs font-weight-bold mb-0">{{$user->wallet->balance}} MMK</p>
                                     </td>
+                                    @endif
                                     <td class="align-middle text-center text-sm">
                                         <span class="badge badge-sm {{$user->status==1 ? 'bg-gradient-success':'bg-gradient-danger' }}">{{$user->status==1 ? 'Active':'Baned' }}</span>
                                     </td>
@@ -54,7 +55,9 @@
                                                 <i class="feather-trash-2 fa-3x"></i>
                                             </button>
                                         </form>
-                                        <a href="" class="text-decoration-none"><i class="feather-edit text-primary fa-2x"></i></a>
+                                        @if($user->role_id==3 ||$user->role_id==4)
+                                        <a href="{{route('getDeposit',$user)}}" class="text-decoration-none"><i class="feather-plus text-primary fa-2x"></i></a>
+                                        @endif
                                         <a href="{{route('user.edit',$user)}}" class="text-decoration-none"><i class="feather-edit text-primary fa-2x"></i></a>
                                     </td>
                                 </tr>

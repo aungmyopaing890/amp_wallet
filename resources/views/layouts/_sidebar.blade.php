@@ -13,7 +13,6 @@
                 <x-menu-item name="Dashboard" class="feather-shopping-bag" link="{{route('dashboard')}}" ></x-menu-item>
 
                 <x-menu-title title="Transaction"></x-menu-title>
-                <x-menu-item name="Deposit" class="feather-user" link="{{route('getDeposit')}}"></x-menu-item>
                 <x-menu-item name="Withdraw" class="feather-user" link=""></x-menu-item>
 
                 <x-menu-title title="Manage Users"></x-menu-title>

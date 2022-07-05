@@ -129,7 +129,7 @@
                                     <x-select
                                         id="currency"
                                         name="currency_id"
-                                        :value="$currencies"
+                                        :options="$currencies"
                                         class="form-control"
                                         required
                                     />

@@ -18,14 +18,14 @@ return new class extends Migration
             $table->foreignId('from')->nullable();
             $table->foreignId('to')->nullable();
             $table->double('transfer_amount');
-            $table->double('charged');
+            $table->double('charged')->default(0);
             $table->double('total');
             $table->foreignId('currency_id');
             $table->string('description')->nullable();
             $table->foreignId('user_id');//Staff
             $table->foreignId('transactionType_id');
             $table->foreignId('service_id')->nullable();
-            $table->integer('status');// pending, approved, cancelled
+            $table->integer('status')->default(0);// pending, approved, cancelled
             $table->timestamps();
         });
     }
