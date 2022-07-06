@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id');
             $table->foreignId('currency_id');
+            $table->string('level_id')->default(1);
             $table->double('balance')->default(0);
             $table->timestamps();
         });

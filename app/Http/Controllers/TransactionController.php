@@ -102,24 +102,38 @@ class TransactionController extends Controller
     {
         $data=$request->validated();
         $wallet=Wallet::where('id',$data['wallet_id'])->first();
-        $limit=TransactionLimit::where('transaction_type_id','2')->where('currency_id',$wallet->currency_id)->first();
-//        if ($request->amount < $limit->daily_amount) {
-//            $notify[] = ['error', 'Your requested amount is smaller than minimum amount.'];
-//            return back()->withNotify($notify);
-//        }
-//        if ($request->amount < $limit->monthly_amount) {
-//            $notify[] = ['error', 'Your requested amount is smaller than minimum amount.'];
-//            return back()->withNotify($notify);
-//        }
+        $limit=TransactionLimit::where('transaction_type_id','2')
+            ->where('level_id',$wallet->level_id)
+            ->where('currency_id',$wallet->currency_id)
+            ->first();
+        $userDailyAmount=DB::table('transactions')
+            ->where('transactionType_id','2')
+            ->where('from',$wallet->id)
+            ->where('currency_id',$wallet->currency_id)
+            ->where('created_at',date('d'))
+            ->sum('total');
+        $userMonthlyAmount=DB::table('transactions')
+            ->where('transactionType_id','2')
+            ->where('from',$wallet->id)
+            ->where('currency_id',$wallet->currency_id)
+            ->where('created_at',date('m'))
+            ->sum('total');
+
+        if ($userDailyAmount+$data->amount > $limit->daily_amount) {
+            return back()->with('error', 'Daily limit!');
+        }
+        if ($userMonthlyAmount+$data->amount > $limit->monthly_amount) {
+            return back()->with('error', 'Monthly Limit!');
+        }
         if ($request->amount > $wallet->balance) {
             return back()->with('error', 'You cannot withdraw more then your balance');
         }
 
         $transaction=New Transaction();
-        $transaction->to=$data['wallet_id'];
+        $transaction->from=$data['wallet_id'];
         $transaction->transfer_amount=$data['amount'];
-        $transaction->total=$data['amount'];
         $transaction->charged=0;
+        $transaction->total=$data['amount'];
         $transaction->currency_id=$wallet->currency_id;
         $transaction->user_id=Auth::user()->id;
         $transaction->transactionType_id=1;
