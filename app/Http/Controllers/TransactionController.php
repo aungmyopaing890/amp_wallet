@@ -6,6 +6,7 @@ use App\Http\Requests\DepositTransactionRequest;
 use App\Http\Requests\WithdrawTransactionRequest;
 use App\Models\Transaction;
 use App\Models\TransactionLimit;
+use App\Models\TransactionType;
 use App\Models\User;
 use App\Models\Wallet;
 use Illuminate\Http\Request;
@@ -106,51 +107,43 @@ class TransactionController extends Controller
             ->where('level_id',$wallet->level_id)
             ->where('currency_id',$wallet->currency_id)
             ->first();
-        $userDailyAmount=DB::table('transactions')
-            ->where('transactionType_id','2')
-            ->where('from',$wallet->id)
-            ->where('currency_id',$wallet->currency_id)
-            ->where('created_at',date('d'))
-            ->sum('total');
-        $userMonthlyAmount=DB::table('transactions')
-            ->where('transactionType_id','2')
-            ->where('from',$wallet->id)
-            ->where('currency_id',$wallet->currency_id)
-            ->where('created_at',date('m'))
-            ->sum('total');
+        $transactionType=TransactionType::where('id','1')->first();
+        $charged=(1000/100)*$transactionType->charge_percentage;
+        $totalAmount=$data['amount']+$charged;
 
-        if ($userDailyAmount+$data->amount > $limit->daily_amount) {
-            return back()->with('error', 'Daily limit!');
-        }
-        if ($userMonthlyAmount+$data->amount > $limit->monthly_amount) {
+        $userMonthlyAmount=user_transaction_amount($wallet,2,'m');
+        if ($userMonthlyAmount+$data['amount'] > $limit->monthly_amount) {
             return back()->with('error', 'Monthly Limit!');
         }
-        if ($request->amount > $wallet->balance) {
+        $userDailyAmount=user_transaction_amount($wallet,2,'d');
+        if ($userDailyAmount+$data['amount'] > $limit->daily_amount) {
+            return back()->with('error', 'Daily limit!');
+        }
+        if ($totalAmount > $wallet->balance) {
             return back()->with('error', 'You cannot withdraw more then your balance');
         }
-
         $transaction=New Transaction();
         $transaction->from=$data['wallet_id'];
         $transaction->transfer_amount=$data['amount'];
-        $transaction->charged=0;
-        $transaction->total=$data['amount'];
-        $transaction->currency_id=$wallet->currency_id;
+        $transaction->charged=$charged;
+        $transaction->total=$totalAmount;
+        $transaction->currency_id = $wallet->currency_id;
         $transaction->user_id=Auth::user()->id;
-        $transaction->transactionType_id=1;
+        $transaction->transactionType_id=2;
         $transaction->status=1;
         $transaction->save();
 
-        $balance=$wallet->balance+$data['amount'];
+        $balance=$wallet->balance-$totalAmount;
         $wallet->balance=$balance;
         $wallet->update();
 
         if ($wallet->user->role_id=='3'){
             return redirect()->route('customer.index')
-                ->with('status', 'customer Deposit successfully!');
+                ->with('status', 'customer Withdraw successfully!');
         }
         elseif($wallet->user->role_id=='4'){
             return redirect()->route('merchant.index')
-                ->with('status', 'merchant Deposit successfully!');
+                ->with('status', 'merchant Withdraw successfully!');
         }
 
     }
