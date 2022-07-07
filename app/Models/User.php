@@ -53,6 +53,10 @@ class User extends Authenticatable
     {
         return collect(config('amp.roles'))->where('id', $this->role_id)->first()['name'];
     }
+    public function is_ban()
+    {
+        return $this->status==1 ? false:true;
+    }
     public function ban()
     {
         return  "<a href=\"users/$this->id/ban\" class=\"text-decoration-none\"><i class=\"feather-delete text-danger fa-2x\"></i></a>";

@@ -48,14 +48,8 @@
                                         <span class="badge badge-sm {{$user->status==1 ? 'bg-gradient-success':'bg-gradient-danger' }}">{{$user->status==1 ? 'Active':'Baned' }}</span>
                                     </td>
                                     <td class="align-middle text-center">
-                                        {{$user->status==1 ? $user->ban() : $user->unBan()}}
-                                        @if($user->status==1)
-                                            {!! $user->ban() !!}
-                                        @else
-                                            {!! $user->unBan() !!}
-                                        @endif
-
-                                        @if($user->role_id==3 ||$user->role_id==4)
+                                        {!!  $user->status==1 ? $user->ban() : $user->unBan() !!}
+                                        @if($user->role_id==3 || $user->role_id==4)
                                             <a href="{{route('getDeposit',$user)}}" class="text-decoration-none"><i class="feather-plus-circle text-primary fa-2x"></i></a>
                                             <a href="{{route('getWithdraw',$user)}}" class="text-decoration-none"><i class="feather-minus-circle text-primary fa-2x"></i></a>
                                         @endif

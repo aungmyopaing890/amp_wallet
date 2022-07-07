@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Models\TransactionLimit;
+use App\Rules\DailyLimit;
 use Illuminate\Foundation\Http\FormRequest;
 
 class WithdrawTransactionRequest extends FormRequest
@@ -25,7 +27,7 @@ class WithdrawTransactionRequest extends FormRequest
     {
         return [
             "wallet_id"=>"required|string",
-            "amount"=>"required|numeric",
+            "amount"=>'required|numeric',
         ];
     }
 }

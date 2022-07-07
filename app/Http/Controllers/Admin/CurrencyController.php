@@ -77,7 +77,6 @@ class CurrencyController extends Controller
     {
         $data=$request->validated();
         $currency->update($data);
-
         return redirect()->route('Admin.currency.create')
             ->with('status', 'Currency updated successfully!');
     }
