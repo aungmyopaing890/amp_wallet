@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\BankerWallet;
 use App\Models\currency;
 use App\Models\Profile;
 use App\Models\Service;
@@ -21,6 +22,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        BankerWallet::create([
+            'amount' => 0,
+            'description' => '',
+
+        ]);
         User::factory(1)->create();
         Profile::factory(1)->create();
         currency::factory(1)->create();
@@ -35,6 +41,29 @@ class DatabaseSeeder extends Seeder
         ]);
         $user->profile()->create([
             'fullName' => 'merchant',
+            'address' => 'Ygn',
+            'nrc' => '9/takana(n)5202455',
+            'dob' => '1995-08-13',
+            'phoneNumber' => '09969625819',
+        ]);
+        $user->wallet()->create([
+            'currency_id' => 1,
+            'balance'=>0,
+            'level_id'=>1
+        ]);
+
+
+        $user=User::create([
+            'name' => 'customer',
+            'email' => "customer@gmail.com",
+            'email_verified_at' => now(),
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'remember_token' => Str::random(10),
+            'verified' => 1,
+            'role_id' => 3,
+        ]);
+        $user->profile()->create([
+            'fullName' => 'customer',
             'address' => 'Ygn',
             'nrc' => '9/takana(n)5202455',
             'dob' => '1995-08-13',

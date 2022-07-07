@@ -48,13 +48,13 @@
                                         <span class="badge badge-sm {{$user->status==1 ? 'bg-gradient-success':'bg-gradient-danger' }}">{{$user->status==1 ? 'Active':'Baned' }}</span>
                                     </td>
                                     <td class="align-middle text-center">
-                                        <form action="{{ route('user.destroy',$user->id) }}" class="d-inline-block" method="post">
-                                            @csrf
-                                            @method("delete")
-                                            <button class="btn btn-outline-danger btn-sm">
-                                                <i class="feather-trash-2 fa-3x"></i>
-                                            </button>
-                                        </form>
+
+                                        @if($user->status==1)
+                                            <a href="{{route('users.ban',$user)}}" class="text-decoration-none"><i class="feather-delete text-danger fa-2x"></i></a>
+                                        @else
+                                        <a href="{{route('users.unBan',$user)}}" class="text-decoration-none"><i class="feather-delete text-success fa-2x"></i></a>
+                                        @endif
+
                                         @if($user->role_id==3 ||$user->role_id==4)
                                             <a href="{{route('getDeposit',$user)}}" class="text-decoration-none"><i class="feather-plus-circle text-primary fa-2x"></i></a>
                                             <a href="{{route('getWithdraw',$user)}}" class="text-decoration-none"><i class="feather-minus-circle text-primary fa-2x"></i></a>

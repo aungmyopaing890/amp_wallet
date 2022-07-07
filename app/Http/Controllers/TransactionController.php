@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\DepositTransactionRequest;
 use App\Http\Requests\WithdrawTransactionRequest;
+use App\Models\BankerLog;
+use App\Models\BankerWallet;
 use App\Models\Transaction;
 use App\Models\TransactionLimit;
+use App\Models\TransactionLog;
 use App\Models\TransactionType;
 use App\Models\User;
 use App\Models\Wallet;
@@ -68,7 +71,13 @@ class TransactionController extends Controller
         $transaction->transactionType_id=1;
         $transaction->status=1;
         $transaction->save();
-
+        TransactionLog::create([
+            'wallet_id'=>$wallet->id,
+            'amount'=>$data['amount'],
+            'transactionType_id'=>'2',
+            'staff_id'=>Auth::user()->id,
+            'status'=>'1',
+        ]);
         $balance=$wallet->balance+$data['amount'];
         $wallet->balance=$balance;
         $wallet->update();
@@ -107,10 +116,8 @@ class TransactionController extends Controller
             ->where('level_id',$wallet->level_id)
             ->where('currency_id',$wallet->currency_id)
             ->first();
-        $transactionType=TransactionType::where('id','1')->first();
-        $charged=(1000/100)*$transactionType->charge_percentage;
+        $charged=charge_amount($data['amount'],2);
         $totalAmount=$data['amount']+$charged;
-
         $userMonthlyAmount=user_transaction_amount($wallet,2,'m');
         if ($userMonthlyAmount+$data['amount'] > $limit->monthly_amount) {
             return back()->with('error', 'Monthly Limit!');
@@ -120,7 +127,7 @@ class TransactionController extends Controller
             return back()->with('error', 'Daily limit!');
         }
         if ($totalAmount > $wallet->balance) {
-            return back()->with('error', 'You cannot withdraw more then your balance');
+            return back()->with('error', 'Insufficient balance');
         }
         $transaction=New Transaction();
         $transaction->from=$data['wallet_id'];
@@ -132,20 +139,33 @@ class TransactionController extends Controller
         $transaction->transactionType_id=2;
         $transaction->status=1;
         $transaction->save();
-
+        TransactionLog::create([
+            'wallet_id'=>$wallet->id,
+            'amount'=>$totalAmount,
+            'transactionType_id'=>2,
+            'staff_id'=>Auth::user()->id,
+            'status'=>1,
+        ]);
+        BankerLog::create([
+            'wallet_id'=>$wallet->id,
+            'amount'=>$charged,
+            'staff_id'=>Auth::user()->id,
+            'description'=>'Withdraw Charged',
+        ]);
+        $bankerWallet=BankerWallet::where('id','1')->first();
+        $bankerWallet->amount=$charged+$bankerWallet->amount;
+        $bankerWallet->update();
         $balance=$wallet->balance-$totalAmount;
         $wallet->balance=$balance;
         $wallet->update();
-
         if ($wallet->user->role_id=='3'){
             return redirect()->route('customer.index')
                 ->with('status', 'customer Withdraw successfully!');
         }
-        elseif($wallet->user->role_id=='4'){
+        else{
             return redirect()->route('merchant.index')
                 ->with('status', 'merchant Withdraw successfully!');
         }
-
     }
     /**
      * Store a newly created resource in storage.
@@ -168,7 +188,6 @@ class TransactionController extends Controller
     {
         //
     }
-
     /**
      * Show the form for editing the specified resource.
      *

@@ -17,7 +17,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('wallet_id');
             $table->double('amount');//Staff
-            $table->foreignId('transactionType_id');
+            $table->string('transactionType_id');
+            $table->string('staff_id');
             $table->integer('status');// pending, approved
             $table->timestamps();
         });

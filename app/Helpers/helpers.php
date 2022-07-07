@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\TransactionType;
 use Illuminate\Support\Facades\DB;
 
 if (! function_exists('store_image')) {
@@ -23,5 +24,13 @@ if (! function_exists('user_transaction_amount')) {
             ->where('created_at',date($created_at))
             ->sum('total');
         return $userDailyAmount;
+    }
+}
+
+if (! function_exists('charge_amount')) {
+    function charge_amount($amount,$transactionType_id)
+    {
+        $transactionType=TransactionType::where('id',$transactionType_id)->first();
+        return ($amount/100)*$transactionType->charge_percentage;
     }
 }

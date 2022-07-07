@@ -15,8 +15,9 @@ return new class extends Migration
     {
         Schema::create('banker_logs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('banker_wallet_id');
-            $table->double('amount');//Staff
+            $table->string('wallet_id');
+            $table->double('amount');
+            $table->string('staff_id');
             $table->string('description')->nullable();
             $table->timestamps();
         });

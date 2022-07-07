@@ -16,7 +16,10 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users=User::latest('id')->where('role_id','1')->orwhere('role_id','2')->get();
+        $users=User::latest('id')
+            ->where('status','1')
+            ->where('role_id','1')
+            ->orwhere('role_id','2')->get();
         return view('user.index',compact('users'));
     }
     public function customerIndex()
@@ -104,11 +107,31 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        Storage::delete("public/users/".$user->profile->imgPath);
-        $profile=$user->profile;
-        $profile->delete();
-        $user->delete();
+        $user->status=0;
+        $user->update();
         return redirect()->back()
-            ->with('status', 'User Deleted successfully!');
+            ->with('status', $user->name.' has been baned successfully!');
+    }
+    /**
+     * Ban the specified users from storage.
+     *
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function ban(string $user_id)
+    {
+        $user=User::where('id',$user_id)->first();
+        $user->status=0;
+        $user->update();
+        return redirect()->back()
+            ->with('status', $user->name.' has been baned successfully!');
+    }
+    public function unBan(string $user_id)
+    {
+        $user=User::where('id',$user_id)->first();
+        $user->status=1;
+        $user->update();
+        return redirect()->back()
+            ->with('status', $user->name.' has been unbaned successfully!');
     }
 }
