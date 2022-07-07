@@ -100,7 +100,7 @@ class TransactionController extends Controller
     public function getWithdraw(string $user_id)
     {
         $user=User::where('id',$user_id)->first();
-        return view('Transaction.withdraw',compact('user'));
+        return view('Transaction.withdraw',compact('user','del'));
     }
     /**
      * Store a newly created resource in storage.

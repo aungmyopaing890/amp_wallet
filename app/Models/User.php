@@ -53,6 +53,15 @@ class User extends Authenticatable
     {
         return collect(config('amp.roles'))->where('id', $this->role_id)->first()['name'];
     }
+    public function ban()
+    {
+        return  "<a href=\"users/$this->id/ban\" class=\"text-decoration-none\"><i class=\"feather-delete text-danger fa-2x\"></i></a>";
+    }
+    public function unBan()
+    {
+        return "<a href=\"users/$this->id/unBan\" class=\"text-decoration-none\"><i class=\"feather-delete text-success fa-2x\"></i></a>";
+    }
+
     /**
      * Set the user's password hashing.
      *
