@@ -61,7 +61,6 @@ class TransactionController extends Controller
         $data=$request->validated();
         $wallet=Wallet::where('id',$data['wallet_id'])->first();
         DB::beginTransaction();
-
         try {
             $transaction=New Transaction();
             $transaction->to=$data['wallet_id'];
@@ -76,11 +75,12 @@ class TransactionController extends Controller
             TransactionLog::create([
                 'wallet_id'=>$wallet->id,
                 'amount'=>$data['amount'],
-                'transactionType_id'=>'2',
+                'transactionType_id'=>'1',
                 'staff_id'=>Auth::user()->id,
                 'status'=>'1',
             ]);
             $wallet->increment('balance',$data['amount']);
+            DB::commit();
             return $wallet->user->role_id=='3' ?
                 redirect()->route('customer.index')->with('status', 'customer Deposit successfully!') :
                 redirect()->route('merchant.index')->with('status', 'merchant Deposit successfully!');
@@ -116,8 +116,6 @@ class TransactionController extends Controller
             ->where('level_id',$wallet->level_id)
             ->where('currency_id',$wallet->currency_id)
             ->first();
-        $charged=charge_amount($data['amount'],2);
-        $totalAmount=$data['amount']+$charged;
 
         $userMonthlyAmount=user_transaction_amount($wallet,2,'m');
         if ($userMonthlyAmount+$data['amount'] > $limit->monthly_amount) {
@@ -127,13 +125,13 @@ class TransactionController extends Controller
         if ($userDailyAmount+$data['amount'] > $limit->daily_amount) {
             return back()->with('error', 'Daily limit!');
         }
+        $charged=charge_amount($data['amount'],2);
+        $totalAmount=$data['amount']+$charged;
         if ($totalAmount > $wallet->balance) {
             return back()->with('error', 'Insufficient balance');
         }
         DB::beginTransaction();
-
         try {
-
             $transaction=New Transaction();
             $transaction->from=$data['wallet_id'];
             $transaction->transfer_amount=$data['amount'];
@@ -144,7 +142,6 @@ class TransactionController extends Controller
             $transaction->transactionType_id=2;
             $transaction->status=1;
             $transaction->save();
-
             TransactionLog::create([
                 'wallet_id'=>$wallet->id,
                 'amount'=>$totalAmount,
@@ -158,10 +155,9 @@ class TransactionController extends Controller
                 'staff_id'=>Auth::user()->id,
                 'description'=>'Withdraw Charged',
             ]);
-
             BankerWallet::find(1)->increment('amount',$charged);
             $wallet->decrement('balance',$totalAmount);
-
+            DB::commit();
             return $wallet->user->role_id=='3' ?
                 redirect()->route('customer.index')->with('status', 'customer Withdraw successfully!') :
                 redirect()->route('merchant.index')->with('status', 'merchant Withdraw successfully!');
@@ -169,6 +165,16 @@ class TransactionController extends Controller
             DB::rollback();
             return response()->json(['error' => $e->getMessage()], 500);
         }
+    }
+
+    /**
+     * Show the form for Deposit.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getTransaction()
+    {
+        return view('Transaction.transaction');
     }
     /**
      * Store a newly created resource in storage.

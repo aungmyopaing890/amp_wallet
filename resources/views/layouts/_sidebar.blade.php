@@ -20,8 +20,6 @@
                 <x-menu-item name="Customer" class="feather-user" link="{{route('customer.index')}}"></x-menu-item>
                 <x-menu-item name="Merchant" class="feather-user" link="{{route('merchant.index')}}"></x-menu-item>
 
-
-
                 <x-menu-title title="Manage Account"></x-menu-title>
                 <x-menu-item name="Service" class="feather-toggle-left" link="{{route('service.create')}}"></x-menu-item>
                 <x-menu-item name="ServiceType" class="feather-toggle-left" link="{{route('serviceType.create')}}"></x-menu-item>
@@ -32,7 +30,7 @@
 
             @elseif(Auth::user()->role_id==4)
                 <x-menu-title title="Manage"></x-menu-title>
-                <x-menu-item name="Deposit" class="feather-dollar-sign" link=""></x-menu-item>
+                <x-menu-item name="Transaction" class="feather-dollar-sign" link="{{route('getTransaction')}}"></x-menu-item>
                 <x-menu-item name="Withdraw" class="feather-dollar-sign" link=""></x-menu-item>-
             @endif
             <li class="menu-item">
