@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use phpDocumentor\Reflection\Types\Boolean;
 
 class User extends Authenticatable
 {
@@ -65,7 +66,6 @@ class User extends Authenticatable
     {
         return "<a href=\"users/$this->id/unBan\" class=\"text-decoration-none\"><i class=\"feather-delete text-success fa-2x\"></i></a>";
     }
-
     /**
      * Set the user's password hashing.
      *

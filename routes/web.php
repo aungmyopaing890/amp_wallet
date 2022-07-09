@@ -26,6 +26,10 @@ Route::resource('serviceType',\App\Http\Controllers\Admin\ServiceTypeController:
 Route::resource('service',\App\Http\Controllers\Admin\ServiceController::class);
 Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');
 
+Route::get('/transaction', [App\Http\Controllers\TransactionController::class, 'getTransaction'])->name('getTransaction');
+Route::post('/getTransfer', [App\Http\Controllers\TransactionController::class, 'getTransfer'])->name('getTransfer');;
+Route::post('/Transfer', [App\Http\Controllers\TransactionController::class, 'Transfer'])->name('Transfer');;
+
 Route::get('/deposit/{id}', [App\Http\Controllers\TransactionController::class, 'getDeposit'])->name('getDeposit');
 Route::post('/deposit', [App\Http\Controllers\TransactionController::class, 'postDeposit'])->name('postDeposit');;
 
