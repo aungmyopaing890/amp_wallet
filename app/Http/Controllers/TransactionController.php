@@ -133,7 +133,6 @@ class TransactionController extends Controller
         DB::beginTransaction();
 
         try {
-
             $transaction=New Transaction();
             $transaction->from=$data['wallet_id'];
             $transaction->transfer_amount=$data['amount'];
