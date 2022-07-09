@@ -3,11 +3,11 @@
         <div class="col-12 mb-md-0 mb-4">
             <div class="card">
                 <div class="card-header pb-0">
-                    <h3>Deposit</h3>
+                    <h3>Transfer</h3>
                 </div>
                 <div class="card-body px-0 pb-2">
                     <div class="row">
-                        <form method="POST" action="{{route('postDeposit')}}" enctype="multipart/form-data">
+                        <form method="POST" action="{{route('getTransfer')}}" enctype="multipart/form-data">
                             @csrf
                             <div class="row mb-0 justify-content-center align-items-center">
                                 <div class="col-10 col-md-6">
@@ -27,7 +27,7 @@
                             <div class="row mb-0 justify-content-center align-items-center">
                                 <div class="col-3">
                                     <button type="submit" class="btn btn-primary btn-lg ">
-                                        {{ __('Make Deposit') }}
+                                        {{ __('Next') }}
                                     </button>
                                 </div>
                             </div>

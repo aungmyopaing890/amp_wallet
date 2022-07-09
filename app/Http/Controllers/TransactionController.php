@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\Console\Input\Input;
+use function PHPUnit\Framework\isNull;
 
 class TransactionController extends Controller
 {
@@ -182,6 +183,31 @@ class TransactionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function getTransfer(Request $request)
+    {
+
+        if($request->wallet_id==Auth::user()->wallet->id){
+            return back()->with('errorToast', 'You cannot transfer to your own account!');
+        }
+        $wallet=Wallet::find($request->wallet_id);
+        if($wallet==""){
+            return back()->with('errorToast', 'Wrong wallet ID!');
+        }
+        return view('Transaction.transfer',compact('wallet'));
+    }
+    public function Transfer(Request $request)
+    {
+        $wallet=Auth::user()->wallet;
+        if ($wallet->balance<$request->amount){
+            return back()->with('errorToast', 'Insufficient balance!');
+        }
+        $wallet->decrement('balance',$request->amount);
+        Wallet::find($request->wallet_id)->increment('balance',$request->amount);
+
+        return redirect()->route('getTransaction')
+            ->with('status', 'Money Transfer successful!');
+    }
+
     public function store(Request $request)
     {
         //
