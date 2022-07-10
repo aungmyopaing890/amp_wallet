@@ -51,8 +51,6 @@ class DatabaseSeeder extends Seeder
             'balance'=>0,
             'level_id'=>1
         ]);
-
-
         $user=User::create([
             'name' => 'customer',
             'email' => "customer@gmail.com",
@@ -86,17 +84,14 @@ class DatabaseSeeder extends Seeder
             'description' => "withdraw",
             'currency_id' => "1",
         ]);
-        TransactionLimit::create([
-            'name' => "Deposit Limit",
-            'daily_amount' => 100000,
-            'monthly_amount' => 3000000,
-            'level_id' => 1,
-            'transaction_type_id' => 1,
-            'currency_id' => 1,
-            'description' => "Level 1 Deposit Limit",
+        TransactionType::create([
+            'charge_percentage' => 0,
+            'name' => "Transfer",
+            'description' => "transfer",
+            'currency_id' => "1",
         ]);
         TransactionLimit::create([
-            'name' => "withdraw Limit",
+            'name' => "Level 1 withdraw Limit",
             'daily_amount' => 100000,
             'monthly_amount' => 3000000,
             'level_id' => 1,
@@ -105,22 +100,31 @@ class DatabaseSeeder extends Seeder
             'description' => "Level 1 withdraw Limit",
         ]);
         TransactionLimit::create([
-            'name' => "Deposit Limit",
-            'daily_amount' => 3000000,
-            'monthly_amount' => 60000000,
-            'level_id' => 2,
-            'transaction_type_id' => 1,
+            'name' => "Level 1 transfer Limit",
+            'daily_amount' => 100000,
+            'monthly_amount' => 3000000,
+            'level_id' => 1,
+            'transaction_type_id' => 3,
             'currency_id' => 1,
-            'description' => "Level 2 Deposit Limit",
+            'description' => "Level 1 transfer Limit",
         ]);
         TransactionLimit::create([
-            'name' => "withdraw Limit",
+            'name' => "Level 2 withdraw Limit",
             'daily_amount' => 3000000,
             'monthly_amount' =>60000000,
             'level_id' => 2,
             'transaction_type_id' => 2,
             'currency_id' => 1,
             'description' => "Level 2 withdraw Limit",
+        ]);
+        TransactionLimit::create([
+            'name' => "Level 2 transfer Limit",
+            'daily_amount' => 3000000,
+            'monthly_amount' => 900000000,
+            'level_id' => 2,
+            'transaction_type_id' => 3,
+            'currency_id' => 1,
+            'description' => "Level 2 transfer Limit",
         ]);
 
     }
