@@ -184,17 +184,39 @@ class TransactionController extends Controller
     public function Transfer(Request $request)
     {
         $wallet=Auth::user()->wallet;
-
-        if ($wallet->balance<$request->amount){
-            return back()->with('errorToast', 'Insufficient balance!');
+        $limit=TransactionLimit::where('transaction_type_id','3')
+            ->where('level_id',$wallet->level_id)
+            ->where('currency_id',$wallet->currency_id)
+            ->first();
+        $userMonthlyAmount=user_transaction_amount($wallet,2,'m');
+        if ($userMonthlyAmount+$request->amount > $limit->monthly_amount) {
+            return back()->with('error', 'Monthly Limit!');
         }
+        $userDailyAmount=user_transaction_amount($wallet,2,'d');
+        if ($userDailyAmount+$request->amount > $limit->daily_amount) {
+            return back()->with('error', 'Daily limit!');
+        }
+        if ($wallet->balance<$request->amount){
+            return redirect()->route('getTransaction')->with('errorToast', 'Insufficient balance!');
+        }
+        DB::beginTransaction();
+        $transaction=New Transaction();
+        $transaction->from=$wallet->id;
+        $transaction->to=$request->wallet_id;
+        $transaction->transfer_amount=$request->amount;
+        $transaction->charged=0;
+        $transaction->total=$request->amount;
+        $transaction->currency_id = $wallet->currency_id;
+        $transaction->user_id=Auth::user()->id;
+        $transaction->transactionType_id=3;
+        $transaction->status=1;
+        $transaction->save();
         $wallet->decrement('balance',$request->amount);
         Wallet::find($request->wallet_id)->increment('balance',$request->amount);
-
+        DB::commit();
         return redirect()->route('getTransaction')
             ->with('status', 'Money Transfer successful!');
     }
-
     public function store(Request $request)
     {
 
