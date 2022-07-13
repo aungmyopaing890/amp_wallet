@@ -90,6 +90,7 @@ class TransactionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function getWithdraw(string $user_id)
     {
         $user=User::where('id',$user_id)->first();
@@ -152,17 +153,20 @@ class TransactionController extends Controller
         return $wallet->user->role_id=='3' ?
             redirect()->route('customer.index')->with('status', 'customer Withdraw successfully!') :
             redirect()->route('merchant.index')->with('status', 'merchant Withdraw successfully!');
-
     }
-
     /**
      * Show the form for Deposit.
      *
      * @return \Illuminate\Http\Response
      */
-    public function getTransaction()
+    public function getWalletID()
     {
         return view('Transaction.transaction');
+    }
+
+    public function getWalletIDWithdraw()
+    {
+        return view('Transaction.getWalletIDWithdraw');
     }
     /**
      * Store a newly created resource in storage.
@@ -179,7 +183,15 @@ class TransactionController extends Controller
         if($wallet==""){
             return back()->with('errorToast', 'Wrong wallet ID!');
         }
-        return view('Transaction.transfer',compact('wallet'));
+
+        if ($request->transaction_type=="3"){
+            return view('Transaction.transfer',compact('wallet'));
+        }
+        else{
+            $user=$wallet->user;
+            return $user->is_ban()? back()->with('errorToast', 'This account has baned!') :  view('Transaction.withdraw',compact('user'));
+            return view('Transaction.withdraw',compact('wallet'));
+        }
     }
     public function Transfer(Request $request)
     {
@@ -221,7 +233,6 @@ class TransactionController extends Controller
     {
 
     }
-
     /**
      * Display the specified resource.
      *

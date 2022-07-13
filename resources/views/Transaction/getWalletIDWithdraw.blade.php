@@ -3,7 +3,7 @@
         <div class="col-12 mb-md-0 mb-4">
             <div class="card">
                 <div class="card-header pb-0">
-                    <h3>Transfer</h3>
+                    <h3>Withdraw</h3>
                 </div>
                 <div class="card-body px-0 pb-2">
                     <div class="row">
@@ -13,7 +13,7 @@
                                      type="text"
                                      name="transaction_type"
                                      class="form-control d-none"
-                                     :value="3"
+                                     :value="2"
                                      required  />
                             <div class="row mb-0 justify-content-center align-items-center">
                                 <div class="col-10 col-md-6">

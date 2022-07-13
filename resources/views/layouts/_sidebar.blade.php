@@ -30,8 +30,8 @@
 
             @elseif(Auth::user()->role_id==4)
                 <x-menu-title title="Manage"></x-menu-title>
-                <x-menu-item name="Transaction" class="feather-dollar-sign" link="{{route('getTransaction')}}"></x-menu-item>
-                <x-menu-item name="Withdraw" class="feather-dollar-sign" link=""></x-menu-item>-
+                <x-menu-item name="Transfer" class="feather-dollar-sign" link="{{route('getWalletID')}}"></x-menu-item>
+                <x-menu-item name="Withdraw" class="feather-dollar-sign" link="{{route('getWalletIDWithdraw')}}"></x-menu-item>-
             @endif
             <li class="menu-item">
                 <a class="btn btn-outline-primary btn-block" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">

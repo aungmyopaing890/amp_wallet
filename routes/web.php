@@ -26,7 +26,8 @@ Route::resource('serviceType',\App\Http\Controllers\Admin\ServiceTypeController:
 Route::resource('service',\App\Http\Controllers\Admin\ServiceController::class);
 Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');
 
-Route::get('/transaction', [App\Http\Controllers\TransactionController::class, 'getTransaction'])->name('getTransaction');
+Route::get('/getWalletID', [App\Http\Controllers\TransactionController::class, 'getWalletID'])->name('getWalletID');
+Route::get('/getWalletIDWithdraw', [App\Http\Controllers\TransactionController::class, 'getWalletIDWithdraw'])->name('getWalletIDWithdraw');
 Route::post('/getTransfer', [App\Http\Controllers\TransactionController::class, 'getTransfer'])->name('getTransfer');;
 Route::post('/Transfer', [App\Http\Controllers\TransactionController::class, 'Transfer'])->name('Transfer');;
 
